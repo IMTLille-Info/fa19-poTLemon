@@ -7,26 +7,26 @@ import org.junit.Test;
 public class testPokemon {
 
 	@Test
-	public void testLostPV() {
+	public void testLostHP() {
 		Pokemon p = new Pokemon(200);
 		p.lostPV(20);
-		assertEquals(180, p.getPv());
+		assertEquals(180, p.getHp());
 	}
 	
 	@Test
-	public void testAddPV() {
+	public void testAddHP() {
 		Pokemon p = new Pokemon(200);
 		p.addPV(20);
-		assertEquals(220, p.getPv());
+		assertEquals(220, p.getHp());
 	}
 	
 	@Test
 	public void testHeal(){
 		Pokemon p = new Pokemon(200);
 		p.lostPV(20);
-		assertEquals(180,p.getPv());
+		assertEquals(180,p.getHp());
 		p.heal();
-		assertEquals(p.getPvMax(), p.getPv());
+		assertEquals(p.getHpMax(), p.getHp());
 	}
 
 }

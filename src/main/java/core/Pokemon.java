@@ -3,20 +3,31 @@ package core;
 public class Pokemon {
 	
 	private String name;
-	private int pv;
-	private int pvMax;
+	private int hp;//hp at this moment
+	private int hpMax;//maximum hp when the pokemon is full life
 	private int level;
 	private int attack;
 	private int defense;
-	
+	private Type type; //enum
 
 	public Pokemon() {
 		
 	}
 	
 	public Pokemon(int pv) {
-		this.pvMax = pv;
-		this.pv = pv;
+		this.hpMax = pv;
+		this.hp = pv;
+	}
+	
+
+	public Pokemon(String name, int hpMax, int attack, int defense,int level, Type type) {
+		this.name = name;
+		this.hpMax = hpMax;
+		this.attack = attack;
+		this.defense = defense;
+		this.level = level;
+		this.type = type;
+		this.hp = hpMax;
 	}
 
 	/**
@@ -24,7 +35,7 @@ public class Pokemon {
 	 * @param lost
 	 */
 	public void lostPV(int lost) {
-		pv -= lost;
+		hp -= lost;
 	}
 	
 	/**
@@ -32,27 +43,27 @@ public class Pokemon {
 	 * @param lost
 	 */
 	public void addPV(int gain) {
-		pv += gain;
+		hp += gain;
 	}
 
 	public void heal(){
-		this.pv = this.pvMax;
+		this.hp = this.hpMax;
 	}
 	
-	public int getPv() {
-		return pv;
+	public int getHp() {
+		return hp;
 	}
 
-	public void setPv(int pv) {
-		this.pv = pv;
+	public void setHp(int hp) {
+		this.hp = hp;
 	}
 
-	public int getPvMax() {
-		return pvMax;
+	public int getHpMax() {
+		return hpMax;
 	}
 
-	public void setPvMax(int pvMax) {
-		this.pvMax = pvMax;
+	public void setHpMax(int hpMax) {
+		this.hpMax = hpMax;
 	}
 
 	public String getName() {
@@ -86,7 +97,12 @@ public class Pokemon {
 	public void setDefense(int defense) {
 		this.defense = defense;
 	}
-	
-	
 
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
 }

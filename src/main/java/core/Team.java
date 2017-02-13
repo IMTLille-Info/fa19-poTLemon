@@ -68,7 +68,7 @@ public class Team {
 		return team.get(i);
 	}
 	
-	public Pokemon dremove(int i){
+	public Pokemon remove(int i){
 		return team.remove(i);
 	}
 
