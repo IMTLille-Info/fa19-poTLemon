@@ -19,5 +19,14 @@ public class testPokemon {
 		p.addPV(20);
 		assertEquals(220, p.getPv());
 	}
+	
+	@Test
+	public void testHeal(){
+		Pokemon p = new Pokemon(200);
+		p.lostPV(20);
+		assertEquals(180,p.getPv());
+		p.heal();
+		assertEquals(p.getPvMax(), p.getPv());
+	}
 
 }
