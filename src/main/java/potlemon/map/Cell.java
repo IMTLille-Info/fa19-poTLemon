@@ -1,11 +1,11 @@
 package potlemon.map;
 
-public class Cellule {
+public class Cell {
     
     private int x;
     private int y;
     
-    public Cellule(int x,int y){
+    public Cell(int x, int y){
         this.x=x;
         this.y=y;
     }

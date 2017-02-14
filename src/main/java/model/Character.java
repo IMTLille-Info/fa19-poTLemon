@@ -1,11 +1,14 @@
 package model;
 
-public class Personnage {
+/**
+ * This class represents a character.
+ */
+public class Character {
 	
 	private String name;
 	private Team team;
 	
-	public Personnage(){
+	public Character(){
 		
 	}
 
