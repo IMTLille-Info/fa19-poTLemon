@@ -9,21 +9,21 @@ import model.Pokemon;
 public class testPokemon {
 
 	@Test
-	public void testLostHP() {
+	public void TestLostHp() {
 		Pokemon p = new Pokemon(200);
 		p.lostPV(20);
 		assertEquals(180, p.getHp());
 	}
 	
 	@Test
-	public void testAddHP() {
+	public void TestAddHp() {
 		Pokemon p = new Pokemon(200);
 		p.addPV(20);
 		assertEquals(220, p.getHp());
 	}
 	
 	@Test
-	public void testHeal(){
+	public void TestHeal(){
 		Pokemon p = new Pokemon(200);
 		p.lostPV(20);
 		assertEquals(180,p.getHp());

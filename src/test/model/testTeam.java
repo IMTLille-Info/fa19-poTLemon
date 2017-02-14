@@ -10,7 +10,7 @@ import model.Team;
 public class testTeam {
 
 	@Test
-	public void testAdd() {
+	public void TestAdd() {
 		Team t = new Team();
 		Pokemon p = new Pokemon();
 		assertEquals(0, t.size());
@@ -21,7 +21,7 @@ public class testTeam {
 	}
 	
 	@Test
-	public void testSwap(){
+	public void TestSwap(){
 		Pokemon p1 = new Pokemon(200);
 		p1.setName("pokemon1");
 		
