@@ -7,7 +7,7 @@ import org.junit.Test;
 import model.Pokemon;
 import model.Team;
 
-public class TestTeam {
+public class TestTeam_ {
 
 	@Test
 	public void TestAdd() {

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import model.Pokemon;
 
-public class TestPokemon {
+public class TestPokemon_ {
 
     @Test
     public void TestLostHp() {
