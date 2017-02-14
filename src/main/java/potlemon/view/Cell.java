@@ -1,4 +1,4 @@
-package potlemon.map;
+package potlemon.view;
 
 public class Cell {
     

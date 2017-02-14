@@ -1,4 +1,4 @@
-package model;
+package potlemon.model;
 
 import java.util.List;
 

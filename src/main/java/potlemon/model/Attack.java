@@ -1,4 +1,4 @@
-package model;
+package potlemon.model;
 
 /**
  * Attack of one pokemon
