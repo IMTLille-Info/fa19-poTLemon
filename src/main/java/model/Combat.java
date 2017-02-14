@@ -1,11 +1,20 @@
 package model;
 
-public class Combat {
+import java.util.List;
 
-	Character p1, p2;
+/**
+ * Combat's action
+ * @author acourand
+ *
+ */
+public class Combat {
 	
-	public Combat(Character p1, Character p2) {
-		this.p1 = p1;
-		this.p2 = p2;
+	/**
+	 * List of fighters
+	 */
+	List<Character> characters;
+	
+	public Combat(List<Character> characters) {
+		this.characters = characters;
 	}
 }

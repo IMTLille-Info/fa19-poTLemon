@@ -1,14 +1,16 @@
 package model;
 
+import java.util.List;
+
 public class Pokemon {
 	
 	private String name;
 	private int hp;//hp at this moment
 	private int hpMax;//maximum hp when the pokemon is full life
 	private int level;
-	private int attack;
 	private int defense;
 	private Type type; //enum
+	private List<Attack> attacks;
 
 	public Pokemon() {
 		
@@ -20,14 +22,14 @@ public class Pokemon {
 	}
 	
 
-	public Pokemon(String name, int hpMax, int attack, int defense,int level, Type type) {
+	public Pokemon(String name, int hpMax, int defense,int level, Type type, List<Attack> attacks) {
 		this.name = name;
 		this.hpMax = hpMax;
-		this.attack = attack;
 		this.defense = defense;
 		this.level = level;
 		this.type = type;
 		this.hp = hpMax;
+		this.attacks = attacks;
 	}
 
 	/**
@@ -82,14 +84,6 @@ public class Pokemon {
 		this.level = level;
 	}
 
-	public int getAttack() {
-		return attack;
-	}
-
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
-
 	public int getDefense() {
 		return defense;
 	}
@@ -104,5 +98,13 @@ public class Pokemon {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+	
+	public List<Attack> getAttacks() {
+		return attacks;
+	}
+	
+	public void setAttacks(Attack attack) {
+		this.attacks.add(attack);
 	}
 }
