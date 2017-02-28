@@ -22,11 +22,9 @@ public class TestTeam {
 	
 	@Test
 	public void TestSwap(){
-		Pokemon p1 = new Pokemon("p1",200);
-		p1.setName("pokemon1");
+		Pokemon p1 = new Pokemon("pokemon1",200);
 		
-		Pokemon p2 = new Pokemon("p1",180);
-		p2.setName("pokemon2");
+		Pokemon p2 = new Pokemon("pokemon2",180);
 		
 		Team t = new Team();
 		t.add(p1);
