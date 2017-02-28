@@ -43,6 +43,15 @@ public class Team {
 		return true;
 	}
 	
+	public boolean everyoneIsDead(){
+		for(Pokemon p :team){
+			if(p.getHp()> 0){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Add a pokemon at the end of the team
 	 * @param p
