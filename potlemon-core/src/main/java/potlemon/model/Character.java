@@ -18,6 +18,11 @@ public class Character {
 		this.team = team;
 		this.inventory = inventory;
 	}
+	
+	public Character(String name, Team team){
+		this.name = name;
+		this.team = team;
+	}
 
 	public String getName() {
 		return name;
