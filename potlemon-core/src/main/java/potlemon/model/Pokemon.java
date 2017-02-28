@@ -1,5 +1,6 @@
 package potlemon.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pokemon {
@@ -11,14 +12,19 @@ public class Pokemon {
 	private int defense;
 	private Type type; //enum
 	private List<Attack> attacks;
+	private int xpBeforeLevel;
+	private int xp;
 
-	public Pokemon() {
-		
-	}
 	
-	public Pokemon(int pv) {
+	public Pokemon(String name, int pv) {
+		this.name = name;
 		this.hpMax = pv;
 		this.hp = pv;
+		this.level = 1;
+		this.xpBeforeLevel = calculateXpBeforeLevel();
+		this.xp = 0;
+		this.defense = 0;
+		this.attacks = new ArrayList<Attack>();
 	}
 	
 
@@ -27,11 +33,20 @@ public class Pokemon {
 		this.hpMax = hpMax;
 		this.defense = defense;
 		this.level = level;
+		this.xpBeforeLevel = calculateXpBeforeLevel();
+		this.xp = 0;
 		this.type = type;
 		this.hp = hpMax;
 		this.attacks = attacks;
 	}
 
+	
+	public int calculateXpBeforeLevel(){
+		return (int) Math.pow(level, 3);
+	}
+	
+	
+	
 	/**
 	 * Remove the amount of pv in parameter
 	 * @param lost
@@ -82,6 +97,8 @@ public class Pokemon {
 
 	public void setLevel(int level) {
 		this.level = level;
+		xpBeforeLevel = calculateXpBeforeLevel();
+		xp = 0;
 	}
 
 	public int getDefense() {
@@ -107,4 +124,34 @@ public class Pokemon {
 	public void setAttacks(Attack attack) {
 		this.attacks.add(attack);
 	}
+	
+	
+	/**
+	 * Add amount to XP and check for level up
+	 * @param amount
+	 */
+	public void gainXp(int amount){
+		if(amount >= xpBeforeLevel-xp){
+			amount -= xpBeforeLevel-xp;
+			level += 1;
+			xpBeforeLevel = calculateXpBeforeLevel();
+			xp = 0;
+			gainXp(amount);
+		}
+		else{
+			xp += amount;
+		}
+	}
+
+
+	public int getXpBeforeLevel() {
+		return xpBeforeLevel;
+	}
+
+
+	public int getXp() {
+		return xp;
+	}
+	
+	
 }
