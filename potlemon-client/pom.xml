@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>potlemon-client</artifactId>
-    <packaging>jar</packaging>
+    <!--<packaging>jar</packaging>-->
 
     <dependencies>
         <!-- ONLY USEFUL FOR CLIENT -->
@@ -21,11 +21,11 @@
             <version>${version.core}</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>net.dermetfan.libgdx-utils</groupId>
-            <artifactId>libgdx-utils</artifactId> <!-- libgdx-utils-box2d -->
+            <artifactId>libgdx-utils</artifactId>
             <version>0.13.3</version>
-        </dependency>
+        </dependency>-->
         
     <!-- LIBGDX -->
         
@@ -54,6 +54,13 @@
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-box2d</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-box2d-platform -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-box2d-platform</artifactId>
             <version>1.9.5</version>
         </dependency>
 
