@@ -43,7 +43,7 @@ public class Team {
 		return true;
 	}
 	
-	public boolean everyoneIsDie(){
+	public boolean everyoneIsDead(){
 		for(Pokemon p :team){
 			if(p.getHp()> 0){
 				return false;
