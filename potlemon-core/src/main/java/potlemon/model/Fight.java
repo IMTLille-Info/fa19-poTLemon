@@ -9,6 +9,7 @@ package potlemon.model;
 public class Fight {
 	
 	Character attacker, defender;
+	boolean fin = false;
 	
 	public Fight(Character c1, Character c2) {
 		this.attacker = c1;
