@@ -15,19 +15,27 @@ public class Attack {
 	/**
 	 * attack's dommage
 	 */
-	int attack;
+	int attackDommage;
 	
-	public Attack(String name, int attack) {
+	public Attack(String name, int attackDommage) {
 		this.name = name;
-		this.attack = attack;
+		this.attackDommage = attackDommage;
 	}
 	
 	/**
 	 * get the attack's dommage
 	 * @return attack's dommage
 	 */
-	public int getAttack() {
-		return attack;
+	public int getAttackDommage() {
+		return attackDommage;
+	}
+
+	/**
+	 * Set the attack's dommage
+	 * @param attackDommage
+	 */
+	public void setAttackDommage(int attackDommage) {
+		this.attackDommage = attackDommage;
 	}
 	
 	/**
