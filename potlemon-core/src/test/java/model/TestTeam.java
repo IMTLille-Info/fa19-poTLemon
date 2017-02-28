@@ -12,7 +12,7 @@ public class TestTeam {
 	@Test
 	public void TestAdd() {
 		Team t = new Team();
-		Pokemon p = new Pokemon();
+		Pokemon p = new Pokemon("p1",200);
 		assertEquals(0, t.size());
 		t.add(p);
 		assertEquals(1, t.size());
@@ -22,10 +22,10 @@ public class TestTeam {
 	
 	@Test
 	public void TestSwap(){
-		Pokemon p1 = new Pokemon(200);
+		Pokemon p1 = new Pokemon("p1",200);
 		p1.setName("pokemon1");
 		
-		Pokemon p2 = new Pokemon(180);
+		Pokemon p2 = new Pokemon("p1",180);
 		p2.setName("pokemon2");
 		
 		Team t = new Team();
