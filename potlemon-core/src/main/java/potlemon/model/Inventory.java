@@ -2,6 +2,7 @@ package potlemon.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represent the inventory of the character
@@ -49,6 +50,10 @@ public class Inventory {
 		else{
 			return nbr;
 		}
+	}
+	
+	public Set<Item> getKeys(){
+		return inventory.keySet();
 	}
 	
 }

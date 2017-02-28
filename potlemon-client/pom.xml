@@ -26,7 +26,13 @@
             <artifactId>libgdx-utils</artifactId> <!-- libgdx-utils-box2d -->
             <version>0.13.3</version>
         </dependency>
-
+        
+        <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx</artifactId>
+            <version>1.9.5</version>
+        </dependency>
 
         <!-- COMMON -->
         <dependency>

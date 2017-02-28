@@ -7,14 +7,16 @@ public class Character {
 	
 	private String name;
 	private Team team;
+	private Inventory inventory;
 	
 	public Character(){
 		
 	}
 	
-	public Character(String name, Team team){
+	public Character(String name, Team team, Inventory inventory){
 		this.name = name;
 		this.team = team;
+		this.inventory = inventory;
 	}
 
 	public String getName() {
@@ -31,6 +33,10 @@ public class Character {
 
 	public void setTeam(Team team) {
 		this.team = team;
+	}
+	
+	public Inventory getInventory(){
+		return inventory;
 	}
 	
 	
