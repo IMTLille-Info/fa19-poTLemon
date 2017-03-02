@@ -1,5 +1,6 @@
 package potlemon;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import potlemon.model.Attack;
@@ -15,6 +16,12 @@ import potlemon.model.Type;
  *
  */
 public class AppMain {
+	
+	public static Integer getChoiceInt() {
+		Scanner scanner = new Scanner(System.in);
+		Integer name = scanner.nextInt();
+		return name;
+	}
 
 	/**
 	 * Menu to create the character
@@ -65,20 +72,28 @@ public class AppMain {
 	public static void showFight(Character c1, Character c2){
 		System.out.println("Your fight :");
 		Fight fight = new Fight(c1, c2);
-		System.out.println("1.Attack");
-		System.out.println("2.Show inventory");
-		System.out.println("3.Manage Team");
-		System.out.println("4.fuir");
 
-		Scanner scanner = new Scanner(System.in);
-		int choice = scanner.nextInt();
-		while(true) {
+		while(!fight.isFinish()) {
+			System.out.println("1.Attack");
+			System.out.println("2.Show inventory");
+			System.out.println("3.Manage Team");
+			System.out.println("4.fuir");
+			Scanner scanner = new Scanner(System.in);
+			int choice = scanner.nextInt();
 			switch (choice) {
-			case 1:
+			case 1: // attack
 				showAttack(fight.getC1());
+				fight.attack(fight.getC1().getTeam().getFirstPokemon().getAttacks().get(getChoiceInt()-1));
+				if(!fight.isFinish()){
+					System.out.println(fight.getC2().getTeam().getFirstPokemon().getName() + " a maintenant " +  fight.getC2().getTeam().getFirstPokemon().getHp() );
+					fight.swap();
+				}
+				else{
+					System.out.println("Combat terminé. " + fight.getC1().getName() + " a gagné");
+				}
 				break;
 			case 2:
-
+				
 				break;
 			case 3:
 
@@ -135,14 +150,18 @@ public class AppMain {
 	public static void main(String[] args) {
 		Character character = createCharacter();
 		System.out.println("Hi " + character.getName() + " !");
-		Pokemon p1 = new Pokemon("Dracofeu", 200, 10, 1, Type.FIRE, null);
-		Pokemon p2 = new Pokemon("Bulbizarre", 150, 8, 1, Type.PLANT, null);
+		
+		ArrayList<Attack> attacks = new ArrayList<Attack>();
+		attacks.add(new Attack("Foudre", 20));
+		attacks.add(new Attack("Prout", 50));
+		Pokemon p1 = new Pokemon("Dracofeu", 200, 10, 1, Type.FIRE, attacks);
+		Pokemon p2 = new Pokemon("Bulbizarre", 150, 8, 1, Type.PLANT, attacks);
 		character.getTeam().add(p1);
 		character.getTeam().add(p2);
 
 		Character mereNature = createCharacter();
-		Pokemon m1 = new Pokemon("Dracofeu", 200, 10, 1, Type.FIRE, null);
-		Pokemon m2 = new Pokemon("Bulbizarre", 150, 8, 1, Type.PLANT, null);
+		Pokemon m2 = new Pokemon("Dracofeu", 200, 10, 1, Type.FIRE, attacks);
+		Pokemon m1 = new Pokemon("Bulbizarre", 150, 8, 1, Type.PLANT, attacks);
 		mereNature.getTeam().add(m1);
 		mereNature.getTeam().add(m2);
 

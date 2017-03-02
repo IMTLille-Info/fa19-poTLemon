@@ -1,5 +1,7 @@
 package potlemon.model;
 
+import java.util.ArrayList;
+
 
 /**
  * Combat's action
@@ -10,10 +12,13 @@ public class Fight {
 	
 	Character attacker, defender;
 	boolean fin = false;
+	ArrayList<Pokemon> deadAttacker,deadDefender;
 	
 	public Fight(Character c1, Character c2) {
 		this.attacker = c1;
 		this.defender = c2;
+		this.deadAttacker = new ArrayList<Pokemon>();
+		this.deadDefender = new ArrayList<Pokemon>();
 	}
 	
 	/**
@@ -25,11 +30,19 @@ public class Fight {
 		if(attackPoint<0){
 			attackPoint = 0;
 		}
-		if(this.getC2().getTeam().getFirstPokemon().getHp()-attackPoint <0){
-			this.getC2().getTeam().getFirstPokemon().setHp(0);	
-		} else {
-			this.getC2().getTeam().getFirstPokemon().setHp( this.defender.getTeam().getFirstPokemon().getHp()-attackPoint);
+		this.getC2().getTeam().getFirstPokemon().setHp( this.defender.getTeam().getFirstPokemon().getHp()-attackPoint);
+		if(checkDead()){
+			this.deadDefender.add(this.getC2().getTeam().getFirstPokemon());
+			this.defender.getTeam().remove(0);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return true if all team dead
+	 */
+	public boolean isFinish(){
+		return defender.getTeam().size()==0;
 	}
 	
 	public Character getC1() {
@@ -47,16 +60,20 @@ public class Fight {
 		Character temp = this.defender;
 		this.defender = attacker;
 		this.attacker = temp;
+		
+		ArrayList<Pokemon> tempMort = this.deadDefender;
+		this.deadDefender = this.deadAttacker;
+		this.deadAttacker = tempMort;
 	}
 	
+	/**
+	 * Verifie si le pokemon en combat est mort
+	 * @return
+	 */
 	public boolean checkDead(){
-		if(defender.getTeam().getFirstPokemon().getHp()==0){
+		if(defender.getTeam().getFirstPokemon().getHp()<=0){
 			return true;
 		}
 		return false;
-	}
-	
-	public void swapDead(Pokemon p){
-		
 	}
 }
