@@ -15,7 +15,7 @@ public class HelloWorld extends ApplicationAdapter{
     @Override
     public void create(){
         sb = new SpriteBatch();
-        img = new Texture("../../sprites/palette.gif");
+        img = new Texture("../sprites/palette.gif");
     }
     
     @Override
