@@ -21,6 +21,10 @@ public class Fight {
 		this.deadDefender = new ArrayList<Pokemon>();
 	}
 	
+	public Fight() {
+	
+	}
+	
 	/**
 	 * 
 	 * @param attack
