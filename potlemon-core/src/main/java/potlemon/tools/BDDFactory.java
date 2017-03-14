@@ -1,35 +1,29 @@
 package potlemon.tools;
 
-import org.sqlite.SQLiteDataSource;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 
 /**
- * gestion de la BDD : propose une fonction
- * et dans la cas ou la base n'existe pas encore elle sera crée
- * la base de donnée est en SQLite
- * @author asvevi
+ * Connect to the SQLite database
  *
  */
 
 public class BDDFactory {
 
     /**
-     * getDBI() qui retourne la connection à la base de donnée
-     * si la base n'existe pas elle sera crée
+     * getConnection() will retruen the connection to the database, if the datatbase
+     * don't exist, it create it
      * @return
      */
     public static Connection getConnection() {
-    	if(!new File("data.db").exists()){//si la BDD n'existe pas
+    	if(!new File("data.db").exists()){//if database don't exists
     		try {
-				new File("data.db").createNewFile();//creation du fichier vide
+				new File("data.db").createNewFile();//create file
 				init();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -47,7 +41,7 @@ public class BDDFactory {
     }
 
     /**
-     * Cree les tables de la BDD ainsi que les users de base
+     * Create every table
      */
 	private static void init() {
 		Connection c = getConnection();
@@ -62,7 +56,6 @@ public class BDDFactory {
 			create = c.prepareStatement(tablePokemon);
 			create.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
