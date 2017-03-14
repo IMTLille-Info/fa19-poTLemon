@@ -1,5 +1,6 @@
 package potlemon;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ import potlemon.model.Item;
 import potlemon.model.Pokemon;
 import potlemon.model.Team;
 import potlemon.model.Type;
+import potlemon.tools.BDDFactory;
 
 /**
  *
@@ -148,6 +150,7 @@ public class AppMain {
 
 
 	public static void main(String[] args) {
+		Connection bdd = BDDFactory.getConnection();
 		Character character = createCharacter();
 		System.out.println("Hi " + character.getName() + " !");
 		
