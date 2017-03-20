@@ -49,12 +49,20 @@ public class BDDFactory {
 				+ "NAME TEXT NOT NULL,"
 				+ "PVMAX INT NOT NULL)";
 		
+		String tableItem = "CREATE TABLE item (ID INT PRIMARY KEY NOT NULL,"
+				+ "NAME TEXT NOT NULL,"
+				+ "pv INT)";
+		
 		
 		
 		PreparedStatement create;
+		PreparedStatement create2;
 		try {
 			create = c.prepareStatement(tablePokemon);
 			create.execute();
+			
+			create2 = c.prepareStatement(tableItem);
+			create2.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
