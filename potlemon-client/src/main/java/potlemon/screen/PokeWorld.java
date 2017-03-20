@@ -34,6 +34,8 @@ public class PokeWorld implements Screen {
         player = new Player(new Sprite(new Texture("../sprites/map/grass.png")));
         spriteBatch = new SpriteBatch();
         player.setPosition(220, 500);
+        
+        Gdx.input.setInputProcessor(player);
     }
 
     public void render(float delta) {
