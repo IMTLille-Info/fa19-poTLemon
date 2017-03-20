@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import potlemon.model.Player;
@@ -31,7 +32,7 @@ public class PokeWorld implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         
-        player = new Player(new Sprite(new Texture("../sprites/map/grass.png")));
+        player = new Player(new Sprite(new Texture("../sprites/human/brendan.png")), (TiledMapTileLayer) map.getLayers().get(0));
         spriteBatch = new SpriteBatch();
         player.setPosition(220, 500);
         
