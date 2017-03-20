@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
+import potlemon.tools.MapKeys;
 
 
 public class Player extends Sprite implements InputProcessor{
@@ -26,25 +27,28 @@ public class Player extends Sprite implements InputProcessor{
     public void draw(SpriteBatch spriteBatch){
         update(Gdx.graphics.getDeltaTime());
         super.draw(spriteBatch);
-        
     }
     
     public void update(float delta){
-        boolean collide = false;
-        float tileWidth = this.collisionLayer.getTileWidth();
-        float tileHeight = this.collisionLayer.getHeight();
+        float oldX = getX();
+        float oldY = getY();
         
         setX(getX() + velocity.x * delta);
         setY(getY() + velocity.y * delta);
+        
+        if(isCellBlocked(getX()+getWidth(), getY()+getHeight())){
+            velocity.x=0;
+            velocity.y=0;
+            setX(oldX);
+            setY(oldY);
+        }
     }
     
     private boolean isCellBlocked(float x,float y){
         Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight()));
-        
-        if(cell != null && cell.getTile().getProperties().containsKey("blocked")){
+        if(cell != null && cell.getTile().getProperties().containsKey(MapKeys.BLOCKED.getString())){
             return true;
         }
-        
         return false;
     }
 

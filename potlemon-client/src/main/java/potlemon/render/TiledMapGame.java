@@ -7,7 +7,6 @@ import com.badlogic.gdx.Input.Keys;
 
 public class TiledMapGame extends Game{
 
-    @Override
     public void create() {
         setScreen(new PokeWorld());
     }
