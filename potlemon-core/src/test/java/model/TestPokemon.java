@@ -18,6 +18,7 @@ public class TestPokemon {
     @Test
     public void TestAddHp() {
         Pokemon p = new Pokemon("p1",200);
+        p.setHpMax(220);
         p.addPV(20);
         assertEquals(220, p.getHp());
     }

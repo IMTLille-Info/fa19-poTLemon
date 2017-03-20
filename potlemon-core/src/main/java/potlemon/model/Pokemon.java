@@ -53,6 +53,9 @@ public class Pokemon {
 	 */
 	public void lostPV(int lost) {
 		hp -= lost;
+		if(hp < 0){
+			hp = 0;
+		}
 	}
 	
 	/**
@@ -61,6 +64,9 @@ public class Pokemon {
 	 */
 	public void addPV(int gain) {
 		hp += gain;
+		if(hp > hpMax){
+			hp = hpMax;
+		}
 	}
 
 	public void heal(){
