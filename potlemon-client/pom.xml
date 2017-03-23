@@ -8,6 +8,7 @@
         <groupId>telecon.fa19</groupId>
         <version>1.0</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>potlemon-client</artifactId>
