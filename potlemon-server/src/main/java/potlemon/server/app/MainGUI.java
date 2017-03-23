@@ -19,6 +19,11 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JTextField;
 
+import potlemon.server.app.listeners.ServerControlsListener;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class MainGUI {
 
 	private JFrame frmPotlemonServer;
@@ -70,17 +75,18 @@ public class MainGUI {
 		lblServerControls.setBounds(173, 11, 158, 26);
 		serverControls.add(lblServerControls);
 		lblServerControls.setFont(new Font("Tahoma", Font.BOLD, 21));
-		
+
+		JLabel lblStatus = new JLabel("OFFLINE");
+		lblStatus.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblStatus.setForeground(Color.RED);
+		lblStatus.setBounds(203, 120, 137, 25);
+		serverControls.add(lblStatus);
+
 		JButton btnStart = new JButton("Start");
+		btnStart.addMouseListener(new ServerControlsListener(lblStatus, btnStart));
 		btnStart.setBounds(135, 60, 252, 49);
 		serverControls.add(btnStart);
-		
-		JLabel lblNewLabel = new JLabel("OFFLINE");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setBounds(202, 127, 137, 25);
-		serverControls.add(lblNewLabel);
-		
+
 		JScrollPane logs_scroll = new JScrollPane();
 		logs_scroll.setBounds(0, 408, 995, 189);
 		frmPotlemonServer.getContentPane().add(logs_scroll);

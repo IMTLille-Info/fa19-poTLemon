@@ -15,7 +15,6 @@ public class ServerApp {
 			public void run() {
 				try {
 					MainGUI window = new MainGUI();
-					
 					System.out.println("GUI started");
 					
 				} catch (Exception e) {
