@@ -78,6 +78,17 @@
         </dependency>
             
     <!-- END LIBGDX -->
+    
+    
+    <!--  KRYONET -->
+	    
+	   <dependency>
+	      <groupId>kryonet</groupId>
+	      <artifactId>kryonet</artifactId>
+	      <version>2.21</version>
+	   </dependency>
+    
+    <!-- END KRYONET -->
     </dependencies>
 
 

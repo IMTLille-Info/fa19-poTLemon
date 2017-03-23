@@ -4,10 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.*;
 
-import org.slf4j.Logger;
-
-import potlemon.server.gui.MainGUI;
-
 /**
  * Created by Pierre on 14/03/2017.
  */
