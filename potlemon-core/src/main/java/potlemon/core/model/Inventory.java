@@ -1,4 +1,4 @@
-package potlemon.model;
+package potlemon.core.model;
 
 import java.util.HashMap;
 import java.util.Map;

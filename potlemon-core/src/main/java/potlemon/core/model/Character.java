@@ -1,4 +1,4 @@
-package potlemon.model;
+package potlemon.core.model;
 
 /**
  * This class represents a character.

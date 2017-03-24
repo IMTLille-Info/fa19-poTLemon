@@ -1,5 +1,5 @@
 
-package potlemon.view;
+package potlemon.core.view;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

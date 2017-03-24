@@ -1,42 +1,24 @@
 package potlemon.server.app;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.JTabbedPane;
-import javax.swing.JScrollPane;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.Color;
-import javax.swing.JTextField;
-
+import potlemon.core.network.ServerConfigs;
 import potlemon.server.app.listeners.ServerControlsListener;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.*;
+import java.awt.*;
 
 public class MainGUI {
 
 	private JFrame frmPotlemonServer;
 	private JTextField serverPortTCP;
 	private JTextField serverPortUDP;
-
+	public final static JTextArea logs = new JTextArea();
 
 	/**
 	 * Create the application.
 	 */
 	public MainGUI() {
 		initialize();
-		
+
 		frmPotlemonServer.setVisible(true);
 	}
 
@@ -92,7 +74,7 @@ public class MainGUI {
 		lblTcpPort.setBounds(10, 14, 46, 14);
 		ports.add(lblTcpPort);
 		serverPortTCP = new JTextField();
-		serverPortTCP.setText("54555");
+		serverPortTCP.setText(String.valueOf(ServerConfigs.PORT_TCP));
 		serverPortTCP.setBounds(87, 11, 160, 20);
 		ports.add(serverPortTCP);
 		serverPortTCP.setColumns(10);
@@ -101,7 +83,7 @@ public class MainGUI {
 		lblUdpPort.setBounds(10, 48, 46, 14);
 		ports.add(lblUdpPort);
 		serverPortUDP = new JTextField();
-		serverPortUDP.setText("54777");
+		serverPortUDP.setText(String.valueOf(ServerConfigs.PORT_UDP));
 		serverPortUDP.setColumns(10);
 		serverPortUDP.setBounds(87, 43, 160, 20);
 		ports.add(serverPortUDP);
@@ -118,7 +100,7 @@ public class MainGUI {
 		logs_scroll.setBounds(0, 408, 995, 189);
 		frmPotlemonServer.getContentPane().add(logs_scroll);
 		
-		JTextArea logs = new JTextArea();
+
 		logs.setEditable(false);
 		logs.setText("***.***.***.** - - [19/Dec/2010:19:47:47 +0100] \"\\x99\\x91g\\xca\\xa8\" 501 1054\r\n**.***.***.** - - [19/Dec/2010:20:14:58 +0100] \"<}\\xdbe\\x86E\\x18\\xe7\\x8b\" 501 1054\r\n**.**.***.*** - - [21/Dec/2010:15:28:14 +0100] \"J\\xaa\\x9f\\xa3\\xdd\\x9c\\x81\\\\\\xbd\\xb3\\xbe\\xf7\\xa6A\\x92g'\\x039\\x97\\xac,vC\\x8d\\x12\\xec\\x80\\x06\\x10\\x8e\\xab7e\\xa9\\x98\\x10\\xa7\" 501 1054\r\n***.***.***.** - - [19/Dec/2010:19:47:47 +0100] \"\\x99\\x91g\\xca\\xa8\" 501 1054\r\n**.***.***.** - - [19/Dec/2010:20:14:58 +0100] \"<}\\xdbe\\x86E\\x18\\xe7\\x8b\" 501 1054\r\n**.**.***.*** - - [21/Dec/2010:15:28:14 +0100] \"Jdqsdffsdfsd fsdf zef zef ze fez fezf kezlf kzefzef \r\nzefgezlf\r\nez f\r\nze flzemflzem fzemfl mzelf ezf lze\r\nfzelfzelf\r\n zefzef");
 		logs_scroll.setViewportView(logs);

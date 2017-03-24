@@ -1,6 +1,7 @@
 package potlemon.server.app.network;
 
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 import potlemon.server.app.exceptions.ServerException;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class PotlemonServer {
     public PotlemonServer(int portTCP, int portUDP) {
         this.portTCP = portTCP;
         this.portUDP = portUDP;
+
+        Log.set(Log.LEVEL_DEBUG);
     }
 
 
@@ -37,8 +40,10 @@ public class PotlemonServer {
             kryoServer.start();
             kryoServer.bind(portTCP,portUDP);
 
+            System.out.println("[KRYO] Port binded");
+
             started =true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
             throw new ServerException("Can't bind ports.", e);

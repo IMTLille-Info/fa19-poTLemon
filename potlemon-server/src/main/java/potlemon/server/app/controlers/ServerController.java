@@ -38,27 +38,30 @@ public class ServerController {
      * PUBLIC METHODS
      */
 
-    public void startServer(int tcp, int udp){
+    public void startServer(int tcp, int udp) {
         System.out.println("[ServerController] trying to create the server");
-        potlemonServer=  new PotlemonServer(tcp, udp);
+        potlemonServer = new PotlemonServer(tcp, udp);
         try {
+            System.out.println("Starting...");
             potlemonServer.start();
         } catch (ServerException e) {
+            System.out.println("Nope, error...");
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch(Exception e){
+            System.out.println("NOpe... EXCEPTION");
         }
     }
 
 
-    public void stopServer(){
+    public void stopServer() {
         System.out.println("[ServerController] trying to destroy the server");
 
-        if(potlemonServer.isStarted()){
+        if (potlemonServer.isStarted()) {
             potlemonServer.stop();
         }
 
     }
-
 
 
 }
