@@ -12,6 +12,9 @@ public class PotlemonServer {
 
     private Server kryoServer;
 
+
+    private boolean started = false;
+
     /**
      * Creates a server on provided port.
      *
@@ -28,15 +31,31 @@ public class PotlemonServer {
      * Starts the server.
      */
     public void start() throws ServerException {
-        kryoServer = new Server();
-        kryoServer.start();
 
         try {
+            kryoServer = new Server();
+            kryoServer.start();
             kryoServer.bind(portTCP,portUDP);
+
+            started =true;
         } catch (IOException e) {
             e.printStackTrace();
 
             throw new ServerException("Can't bind ports.", e);
         }
     }
+
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void stop() {
+        if(isStarted() && kryoServer!=null){
+            kryoServer.stop();
+            kryoServer=null;
+            started=false;
+        }
+    }
 }
+

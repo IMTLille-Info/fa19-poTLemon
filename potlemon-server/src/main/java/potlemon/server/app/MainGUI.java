@@ -82,8 +82,35 @@ public class MainGUI {
 		lblStatus.setBounds(203, 120, 137, 25);
 		serverControls.add(lblStatus);
 
+
+		JPanel ports = new JPanel();
+		ports.setBounds(29, 270, 533, 88);
+		frmPotlemonServer.getContentPane().add(ports);
+		ports.setLayout(null);
+
+		JLabel lblTcpPort = new JLabel("TCP port");
+		lblTcpPort.setBounds(10, 14, 46, 14);
+		ports.add(lblTcpPort);
+		serverPortTCP = new JTextField();
+		serverPortTCP.setText("54555");
+		serverPortTCP.setBounds(87, 11, 160, 20);
+		ports.add(serverPortTCP);
+		serverPortTCP.setColumns(10);
+
+		JLabel lblUdpPort = new JLabel("UDP port");
+		lblUdpPort.setBounds(10, 48, 46, 14);
+		ports.add(lblUdpPort);
+		serverPortUDP = new JTextField();
+		serverPortUDP.setText("54777");
+		serverPortUDP.setColumns(10);
+		serverPortUDP.setBounds(87, 43, 160, 20);
+		ports.add(serverPortUDP);
+
+
+
+
 		JButton btnStart = new JButton("Start");
-		btnStart.addMouseListener(new ServerControlsListener(lblStatus, btnStart));
+		btnStart.addMouseListener(new ServerControlsListener(lblStatus, btnStart, serverPortTCP, serverPortUDP));
 		btnStart.setBounds(135, 60, 252, 49);
 		serverControls.add(btnStart);
 
@@ -100,31 +127,7 @@ public class MainGUI {
 		lblLogs.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblLogs.setBounds(10, 369, 169, 38);
 		frmPotlemonServer.getContentPane().add(lblLogs);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(29, 270, 533, 88);
-		frmPotlemonServer.getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		serverPortTCP = new JTextField();
-		serverPortTCP.setText("54555");
-		serverPortTCP.setBounds(87, 11, 160, 20);
-		panel.add(serverPortTCP);
-		serverPortTCP.setColumns(10);
-		
-		serverPortUDP = new JTextField();
-		serverPortUDP.setText("54777");
-		serverPortUDP.setColumns(10);
-		serverPortUDP.setBounds(87, 43, 160, 20);
-		panel.add(serverPortUDP);
-		
-		JLabel lblTcpPort = new JLabel("TCP port");
-		lblTcpPort.setBounds(10, 14, 46, 14);
-		panel.add(lblTcpPort);
-		
-		JLabel lblUdpPort = new JLabel("UDP port");
-		lblUdpPort.setBounds(10, 48, 46, 14);
-		panel.add(lblUdpPort);
+
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmPotlemonServer.setJMenuBar(menuBar);
