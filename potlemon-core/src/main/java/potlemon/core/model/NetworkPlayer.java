@@ -17,4 +17,8 @@ public class NetworkPlayer extends Player implements NetworkElement {
     public NetworkPlayer(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite, collisionLayer);
     }
+
+    public NetworkPlayer(String texturePath, TiledMapTileLayer collisionLayer) {
+        super(texturePath, collisionLayer);
+    }
 }

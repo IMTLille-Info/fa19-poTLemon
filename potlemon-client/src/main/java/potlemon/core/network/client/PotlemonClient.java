@@ -1,19 +1,26 @@
 package potlemon.core.network.client;
 
 import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.sun.jmx.remote.internal.ClientListenerInfo;
 import potlemon.core.network.KryoRegisterClasses;
 import potlemon.core.network.dto.NetworkDTO;
+import potlemon.core.network.dto.PlayerDTO;
 import potlemon.core.network.events.NetworkEvent;
 import potlemon.core.network.config.ServerConfigs;
 import potlemon.core.network.exceptions.NetworkClientException;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pierre on 24/03/2017.
  */
-public class PotlemonClient {
+public class PotlemonClient extends Listener {
     private static Client client;
 
     private static PotlemonClient potlemonClient = null;
@@ -21,6 +28,7 @@ public class PotlemonClient {
     private boolean started = false;
     private Thread clientThread;
 
+    private List<ClientListener> listeners = new ArrayList<>();
 
     /**
      * Gets client instance.
@@ -62,12 +70,13 @@ public class PotlemonClient {
             client.connect(5000, inetAddress, ServerConfigs.PORT_TCP, ServerConfigs.PORT_UDP);
 
             System.out.println("successfully connected");
+            started = true;
 
             registerClasses();
 
-            serverSend_HELLO();
+            // have to register listener
+            client.addListener(this);
 
-            started = true;
         } catch (IOException e) {
             System.out.println("ERROR: can't connect");
             e.printStackTrace();
@@ -76,8 +85,9 @@ public class PotlemonClient {
     }
 
     public void stop() {
-        if (client.isConnected()) {
+        if (client!=null && client.isConnected()) {
             client.stop();
+            started=false;
         }
     }
 
@@ -97,9 +107,38 @@ public class PotlemonClient {
     /**
      * SEND HELLO TO THE SERVER
      */
-    private void serverSend_HELLO() {
-        client.sendTCP(NetworkEvent.TCP_HELLO);
+
+    public boolean isStarted() {
+        return started;
     }
 
+    public void sendTCPServer(NetworkDTO networkDTO) {
+        System.out.println("Sending to server...");
+        client.sendTCP(networkDTO);
+    }
+
+    public void sendUDPServer(NetworkDTO networkDTO) {
+        client.sendUDP(networkDTO);
+    }
+
+    @Override
+    public void received(Connection connection, Object o) {
+        for (ClientListener list :
+                listeners) {
+            list.onEvent(null, o);
+        }
+    }
+
+    public void addListener(ClientListener clientListener) {
+        listeners.add(clientListener);
+    }
+
+    /**
+     * Removes all listeners
+     */
+    public void removeListeners() {
+        listeners = new ArrayList<>();
+    }
 
 }
+

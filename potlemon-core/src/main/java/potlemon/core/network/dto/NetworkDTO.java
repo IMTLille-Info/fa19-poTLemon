@@ -23,6 +23,11 @@ public class NetworkDTO extends NetPackage implements Serializable {
         this.event = event;
     }
 
+    public NetworkDTO(NetworkEvent event, NetworkDTOData data) {
+        this.event = event;
+        this.data = data;
+    }
+
     public NetworkDTO(){
 
     }

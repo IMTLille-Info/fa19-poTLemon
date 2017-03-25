@@ -13,7 +13,7 @@ import javax.swing.*;
 public class TiledMapGame extends Game {
 
     // NETWORK CLIENT
-    private PotlemonClient networkClient = null;
+    private PotlemonClient networkClient =  PotlemonClient.getInstance();
 
     public void create() {
         setScreen(new PokeWorld());
@@ -29,6 +29,9 @@ public class TiledMapGame extends Game {
         super.render();
         if (Gdx.input.isKeyPressed(Keys.R)) {
             try {
+                // removes all listeners on option
+                networkClient.removeListeners();
+
                 setScreen(getScreen().getClass().newInstance());
             } catch (InstantiationException e) {
                 e.printStackTrace();
@@ -37,9 +40,8 @@ public class TiledMapGame extends Game {
             }
         } else if (Gdx.input.isKeyPressed(Keys.N)) {
 
-            if (networkClient == null) {
+            if (!networkClient.isStarted()) {
                 System.out.println("Starting network mode...");
-                networkClient = PotlemonClient.getInstance();
 
                 try {
                     networkClient.start();

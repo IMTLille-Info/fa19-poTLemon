@@ -15,21 +15,21 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import potlemon.core.interfaces.NetworkElement;
 import potlemon.core.model.NetworkPlayer;
 import potlemon.core.model.Player;
+import potlemon.core.network.client.PotlemonClient;
+import potlemon.core.network.dto.NetworkDTO;
+import potlemon.core.network.dto.PlayerDTO;
+import potlemon.core.network.events.NetworkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PokeWorld implements Screen {
+public class PokeWorld extends AbstractScreen {
 
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private OrthographicCamera camera;
 
-    private TextureAtlas playerAtlas;
-    private Player player;
 
-    // for network elements
-    private List<NetworkElement> networkElements = new ArrayList<>();
+    public PokeWorld() {
+        super();
+    }
 
 
     public void show() {
@@ -39,13 +39,22 @@ public class PokeWorld implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+
+        // check if player position is defined
         player = new Player("sprites/human/brendan.png", (TiledMapTileLayer) map.getLayers().get(0));
         player.setPosition(200, 500);
 
 
-        // TEST network elements
-        networkElements.add(new NetworkPlayer(new Sprite(new Texture("sprites/human/network.png")), (TiledMapTileLayer) map.getLayers().get(0)));
-        ((NetworkPlayer)networkElements.get(0)).setPosition(200, 500);
+        // SEND SERVER
+        if (networkClient.isStarted()) {
+            // add listener for network elements
+            addNetworkListener();
+
+            //send HELLO to server
+            networkClient.sendTCPServer(new NetworkDTO(NetworkEvent.TCP_HELLO, new PlayerDTO(player.getX(),player.getY())));
+
+        }
+
 
 
         Gdx.input.setInputProcessor(player);
@@ -75,7 +84,7 @@ public class PokeWorld implements Screen {
                 continue;
             }
 
-            ((NetworkPlayer)elm).draw();
+            ((NetworkPlayer) elm).draw();
 
         }
 

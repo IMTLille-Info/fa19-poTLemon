@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public enum NetworkEvent implements Serializable
 {
-    TCP_HELLO;
+    TCP_HELLO, TCP_NEW_PLAYER;
 
     NetworkEvent(){
 

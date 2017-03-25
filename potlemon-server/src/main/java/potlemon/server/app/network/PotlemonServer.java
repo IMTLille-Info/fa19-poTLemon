@@ -8,8 +8,10 @@ import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import potlemon.core.network.KryoRegisterClasses;
 import potlemon.core.network.dto.NetworkDTO;
+import potlemon.core.network.dto.PlayerDTO;
+import potlemon.core.network.events.NetworkEvent;
+import potlemon.core.network.server.NetPackage;
 import potlemon.server.app.exceptions.ServerException;
-import potlemon.server.app.listeners.network.ClientListener;
 import potlemon.server.app.tools.Logger;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -106,7 +108,6 @@ public class PotlemonServer extends Listener implements Disposable {
     }
 
     public void tick() {
-        System.out.println("Tick time...");
         Runnable run = null;
         while ((run = queue.poll()) != null) {
             run.run();
@@ -135,6 +136,95 @@ public class PotlemonServer extends Listener implements Disposable {
         Logger.log(getClass().toString(), "An object has been received...");
         System.out.println(o);
 
+        // IS NETWORKDTO?
+        if (o instanceof NetworkDTO) {
+            processDTO(connection, (NetworkDTO) o);
+        } else {
+            Logger.log(getClass().toString(), "Unknown object...");
+
+        }
+
     }
+
+    /**
+     * Process DTO
+     *
+     * @param o
+     */
+    private void processDTO(Connection connection, NetworkDTO o) {
+
+        if (o.event.equals(NetworkEvent.TCP_HELLO)) {
+            Logger.log(getClass().toString(), "Received HELLO");
+
+            // player position in parameter
+            // get connected player
+            ConnectedClient connectedClient = connectedClients.get(connection.getID());
+            connectedClient.setX(((PlayerDTO) o.data).getX());
+            connectedClient.setY(((PlayerDTO) o.data).getY());
+
+            sendToAllExceptTCP(connectedClient.getID(), new NetworkDTO(NetworkEvent.TCP_NEW_PLAYER, new PlayerDTO(connectedClient.getID(), connectedClient.getX(), connectedClient.getY())));
+
+            // have to send to this client, the whole connected players
+            PlayerDTO[] allClients = new PlayerDTO[connectedClients.size-1];
+            int i=0;
+            ObjectMap.Keys<Integer> keys = connectedClients.keys();
+            for (Integer key :
+                    keys) {
+                ConnectedClient c = connectedClients.get(key);
+                if(c.getID()==connectedClient.getID()){
+                    continue;
+                }
+
+                allClients[i++] = new PlayerDTO(c.getId(), c.getX(), c.getY());
+            }
+
+            sendToTCP(connection, allClients);
+
+        }
+
+    }
+
+
+    public void sendToAllTCP(NetPackage pkg) {
+        pkg.connectionType = NetPackage.TCP;
+        pkg.time = tickTime;
+        kryoServer.sendToAllTCP(pkg);
+    }
+
+    public void sendToAllExceptTCP(int i, NetPackage pkg) {
+        pkg.connectionType = NetPackage.TCP;
+        pkg.time = tickTime;
+        kryoServer.sendToAllExceptTCP(i, pkg);
+        Logger.log(getClass().toString(), "Forwarding an event to all except");
+    }
+
+    public void sendToAllUDP(NetPackage pkg) {
+        pkg.connectionType = NetPackage.UDP;
+        pkg.time = tickTime;
+        kryoServer.sendToAllUDP(pkg);
+    }
+
+    public void sendToAllExceptUDP(int i, NetPackage pkg) {
+        pkg.connectionType = NetPackage.UDP;
+        pkg.time = tickTime;
+        kryoServer.sendToAllExceptUDP(i, pkg);
+    }
+
+    public void sendToTCP(Connection connection, NetPackage pkg) {
+        pkg.connectionType = NetPackage.TCP;
+        pkg.time = tickTime;
+        kryoServer.sendToTCP(connection.getID(), pkg);
+    }
+
+    public void sendToTCP(Connection connection, NetPackage[] pkg) {
+        kryoServer.sendToTCP(connection.getID(), pkg);
+    }
+
+    public void sendToUDP(Connection connection, NetPackage pkg) {
+        pkg.connectionType = NetPackage.UDP;
+        pkg.time = tickTime;
+        kryoServer.sendToUDP(connection.getID(), pkg);
+    }
+
 }
 
