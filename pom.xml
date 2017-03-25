@@ -23,6 +23,8 @@
         <version.core>1.0</version.core>
         <version.client>1.0</version.client>
         <version.server>1.0</version.server>
+
+        <version.compiler>3.5.1</version.compiler>
     </properties>
 
 

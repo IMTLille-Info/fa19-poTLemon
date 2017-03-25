@@ -15,7 +15,20 @@ import java.util.List;
 public class PotlemonClient {
     private static Client client;
 
-    public static void main(String[] args) {
+    private static PotlemonClient potlemonClient = null;
+
+    /**
+     * Gets client instance.
+     * @return
+     */
+    public static PotlemonClient getInstance(){
+        if(potlemonClient==null){
+            potlemonClient=new PotlemonClient();
+        }
+        return potlemonClient;
+    }
+
+    private PotlemonClient() {
 
         client = new Client();
         client.start();
@@ -42,5 +55,10 @@ public class PotlemonClient {
             e.printStackTrace();
 
         }
+    }
+
+
+    public static void main(String[] args) {
+        PotlemonClient.getInstance();
     }
 }

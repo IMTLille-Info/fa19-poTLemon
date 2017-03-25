@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    
+
     <parent>
         <artifactId>potlemon</artifactId>
         <groupId>telecon.fa19</groupId>
@@ -21,16 +21,16 @@
             <artifactId>potlemon-core</artifactId>
             <version>${version.core}</version>
         </dependency>
-        
+
         <!-- LIBGDX -->
-        
+
         <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx -->
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx</artifactId>
             <version>1.9.5</version>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-platform -->
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
@@ -38,7 +38,7 @@
             <version>1.9.5</version>
             <classifier>natives-desktop</classifier>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-backend-lwjgl -->
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
@@ -52,7 +52,7 @@
             <artifactId>gdx-box2d</artifactId>
             <version>1.9.5</version>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-box2d-platform -->
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
@@ -60,10 +60,10 @@
             <version>1.9.5</version>
             <!-- <classifier>natives-desktop</classifier> -->
         </dependency>
-            
+
         <!-- END LIBGDX -->
-        
-        
+
+
         <!-- COMMON -->
         <dependency>
             <groupId>junit</groupId>
@@ -76,8 +76,8 @@
             <type>maven-plugin</type>
         </dependency>
     </dependencies>
-    
-     
+
+
     <build>
         <plugins>
             <!-- any other plugins -->
@@ -97,7 +97,7 @@
                             <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
-                    
+
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
@@ -111,6 +111,18 @@
                 <version>1.2.1</version>
                 <configuration>
                     <mainClass>Main</mainClass>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler}</version>
+                <configuration>
+                    <!-- or whatever version you use -->
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
