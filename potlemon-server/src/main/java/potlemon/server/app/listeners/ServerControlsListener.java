@@ -1,8 +1,10 @@
 package potlemon.server.app.listeners;
 
 import potlemon.server.app.controlers.ServerController;
+import potlemon.server.app.tools.Logger;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -36,15 +38,16 @@ public class ServerControlsListener extends MouseAdapter {
 
         if (btnStart.getText().equals("Start")) {
             // have to start
-            lblStatus.setText("Starting...");
-            btnStart.setText("Starting...");
+            lblStatus.setText("ONLINE");
+            lblStatus.setForeground(Color.GREEN);
+            btnStart.setText("Stop");
 
             try {
                 // have to start server
                 ServerController.getInstance().startServer(Integer.parseInt(serverPortTCP.getText()), Integer.parseInt(serverPortUDP.getText()));
 
             } catch (Exception exception) {
-                System.out.println("[StartingServer] " + exception.getMessage());
+                Logger.log(this.getClass().toString(), exception.getMessage());
                 resetBtns();
             }
 
@@ -63,6 +66,7 @@ public class ServerControlsListener extends MouseAdapter {
 
     protected void resetBtns() {
         lblStatus.setText("OFFLINE");
+        lblStatus.setForeground(Color.RED);
         btnStart.setText("Start");
     }
 

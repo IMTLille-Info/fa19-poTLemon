@@ -1,5 +1,7 @@
 package potlemon.server.app;
 
+import potlemon.server.app.tools.Logger;
+
 import java.awt.EventQueue;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ public class ServerApp {
 			public void run() {
 				try {
 					MainGUI window = new MainGUI();
-					System.out.println("GUI started");
+                    Logger.log(this.getClass().toString(), "GUI started");
 					
 				} catch (Exception e) {
 					e.printStackTrace();
