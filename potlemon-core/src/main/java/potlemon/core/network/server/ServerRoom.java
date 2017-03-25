@@ -1,4 +1,4 @@
-package potlemon.core.network;
+package potlemon.core.network.server;
 
 import java.util.ArrayList;
 import java.util.List;

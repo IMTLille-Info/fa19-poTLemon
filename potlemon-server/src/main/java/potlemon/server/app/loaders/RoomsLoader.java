@@ -1,6 +1,6 @@
 package potlemon.server.app.loaders;
 
-import potlemon.core.network.ServerRoom;
+import potlemon.core.network.server.ServerRoom;
 import potlemon.server.app.tools.Logger;
 
 import java.util.ArrayList;

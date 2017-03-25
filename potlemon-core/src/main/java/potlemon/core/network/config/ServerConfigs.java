@@ -1,4 +1,4 @@
-package potlemon.core.network;
+package potlemon.core.network.config;
 
 /**
  * Created by Pierre on 24/03/2017.

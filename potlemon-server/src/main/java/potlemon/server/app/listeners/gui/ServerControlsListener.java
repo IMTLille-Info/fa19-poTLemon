@@ -1,4 +1,4 @@
-package potlemon.server.app.listeners;
+package potlemon.server.app.listeners.gui;
 
 import potlemon.server.app.controlers.ServerController;
 import potlemon.server.app.tools.Logger;
@@ -52,11 +52,11 @@ public class ServerControlsListener extends MouseAdapter {
             }
 
         } else {
-            // have to stop
+            // have to dispose
             lblStatus.setText("Stopping...");
             btnStart.setText("Stopping...");
 
-            // have to stop server
+            // have to dispose server
             ServerController.getInstance().stopServer();
 
             resetBtns();

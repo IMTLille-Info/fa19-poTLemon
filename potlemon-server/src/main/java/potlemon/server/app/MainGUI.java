@@ -1,14 +1,12 @@
 package potlemon.server.app;
 
-import potlemon.core.network.ServerConfigs;
-import potlemon.server.app.listeners.ServerControlsListener;
+import potlemon.core.network.config.ServerConfigs;
+import potlemon.server.app.listeners.gui.ServerControlsListener;
 import potlemon.server.app.tools.Logger;
 import potlemon.server.app.tools.LoggerObserver;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
 public class MainGUI {
 

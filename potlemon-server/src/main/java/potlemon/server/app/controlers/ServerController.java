@@ -60,12 +60,37 @@ public class ServerController {
     public void startServer(int tcp, int udp) {
         Logger.log(this.getClass().toString(), "trying to create the server");
         potlemonServer = new PotlemonServer(tcp, udp);
+
         try {
             Logger.log(this.getClass().toString(), "Starting...");
             potlemonServer.start();
+
+
+            // TICK UPDATE
+            Thread runner = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        long then = System.currentTimeMillis();
+
+                        potlemonServer.tick();
+
+                        long now = System.currentTimeMillis();
+                        long sleeptime = 16 - (now-then);
+                        if (sleeptime > 0)
+                            try {
+                                Thread.sleep(sleeptime);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                    }
+                }
+            });
+            runner.start();
+
+
         } catch (ServerException e) {
             Logger.log(this.getClass().toString(), "Nope, error...");
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             Logger.log(this.getClass().toString(), "NOpe... EXCEPTION");
@@ -79,7 +104,7 @@ public class ServerController {
         Logger.log(this.getClass().toString(), "trying to destroy the server");
 
         if (potlemonServer.isStarted()) {
-            potlemonServer.stop();
+            potlemonServer.dispose();
         }
 
     }
