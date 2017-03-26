@@ -49,6 +49,8 @@ public abstract class AbstractScreen implements Screen {
                     for (PlayerDTO playerDTO :
                             (PlayerDTO[]) o) {
 
+
+                        // @TODO : Sprite loading outside the context??
                         // TEST network elements
                         networkElements.add(new NetworkPlayer(new Sprite(new Texture("sprites/human/network.png")), (TiledMapTileLayer) map.getLayers().get(0)));
                         ((NetworkPlayer) networkElements.get(0)).setPosition(playerDTO.getX(), playerDTO.getY());
