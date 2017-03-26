@@ -152,13 +152,18 @@ public class PotlemonServer extends Listener implements Disposable {
      * @param o
      */
     private void processDTO(Connection connection, NetworkDTO o) {
+        // already logged, can get the object
+        ConnectedClient connectedClient = connectedClients.get(connection.getID());
 
+        /**
+         * HELLO
+         */
         if (o.event.equals(NetworkEvent.TCP_HELLO)) {
             Logger.log(getClass().toString(), "Received HELLO");
 
             // player position in parameter
             // get connected player
-            ConnectedClient connectedClient = connectedClients.get(connection.getID());
+
             connectedClient.setX(((PlayerDTO) o.data).getX());
             connectedClient.setY(((PlayerDTO) o.data).getY());
 
@@ -166,13 +171,13 @@ public class PotlemonServer extends Listener implements Disposable {
             sendToAllExceptTCP(connection.getID(), new NetworkDTO(NetworkEvent.TCP_NEW_PLAYER, new PlayerDTO(connectedClient.getID(), connectedClient.getX(), connectedClient.getY())));
 
             // have to send to this client, the whole connected players
-            PlayerDTO[] allClients = new PlayerDTO[connectedClients.size-1];
-            int i=0;
+            PlayerDTO[] allClients = new PlayerDTO[connectedClients.size - 1];
+            int i = 0;
             ObjectMap.Keys<Integer> keys = connectedClients.keys();
             for (Integer key :
                     keys) {
                 ConnectedClient c = connectedClients.get(key);
-                if(c.getID()==connectedClient.getID()){
+                if (c.getID() == connectedClient.getID()) {
                     continue;
                 }
 
@@ -183,6 +188,22 @@ public class PotlemonServer extends Listener implements Disposable {
             // send all clients to logged player
             sendToTCP(connection, new NetworkDTO(NetworkEvent.TCP_ALL_PLAYERS, allClients));
 
+        }
+
+        /**
+         *  PLAYER UPDATE POSITION
+         */
+        else if (o.event.equals(NetworkEvent.TCP_SEND_POSITION)) {
+            if (!(o.data instanceof PlayerDTO)) {
+                Logger.log(getClass().toString(), "SEND_POSITION failed, not a player dto");
+                return;
+            }
+            connectedClient.setX(((PlayerDTO)o.data).getX());
+            connectedClient.setY(((PlayerDTO)o.data).getY());
+
+            // HAVE TO FIND POSITION
+
+        Logger.log(getClass().toString(), "Player " + connectedClient.getID() +" has updated position: "+ connectedClient.getX()+ ","+connectedClient.getY());
         }
 
     }

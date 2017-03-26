@@ -9,11 +9,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
+import potlemon.core.tools.ClientListener;
 import potlemon.core.tools.MapKeys;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Player extends Sprite implements InputProcessor{
-    
+
+    /**
+     * ATTRIBUTES
+     */
     private Vector2 velocity = new Vector2();
     private float speed = 100;
 
@@ -21,6 +28,12 @@ public class Player extends Sprite implements InputProcessor{
     private SpriteBatch buffer;
 
     private TiledMapTileLayer collisionLayer;
+
+    /**
+     * Events listeners
+     */
+    private List<ClientListener> listeners = new ArrayList<>();
+
 
     public Player(String texturePath, TiledMapTileLayer collisionLayer){
         this(new Sprite(new Texture(texturePath)), collisionLayer);
@@ -49,15 +62,21 @@ public class Player extends Sprite implements InputProcessor{
         
         setX(getX() + velocity.x * delta);
         setY(getY() + velocity.y * delta);
-        
+
         if(isCellBlocked(getX()+getWidth(), getY()+getHeight())){
             velocity.x=0;
             velocity.y=0;
             setX(oldX);
             setY(oldY);
         }
+
+        // notify listener if position has been updated
+        if(oldX != getX() || oldY != getY()){
+            notifyUpdatedPosition();
+        }
+
     }
-    
+
     private boolean isCellBlocked(float x,float y){
         Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight()));
         if(cell != null && cell.getTile().getProperties().containsKey(MapKeys.BLOCKED.getString())){
@@ -115,5 +134,23 @@ public class Player extends Sprite implements InputProcessor{
     public boolean mouseMoved(int i, int i1) { return false; }
 
     public boolean scrolled(int i) { return false; }
-    
+
+
+    public void addListener(ClientListener clientListener){
+        listeners.add(clientListener);
+    }
+
+    public void removeListener(ClientListener clientListener){
+        listeners.remove(clientListener);
+    }
+
+
+    /**
+     * Notify the listeners about updated positions.
+     */
+    private void notifyUpdatedPosition() {
+        for (ClientListener clientListener: listeners ) {
+            clientListener.onPlayerEvent(PlayerEvent.UPDATED_POSITON, this);
+        }
+    }
 }

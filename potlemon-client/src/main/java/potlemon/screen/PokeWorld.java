@@ -1,28 +1,19 @@
 package potlemon.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import potlemon.core.interfaces.NetworkElement;
 import potlemon.core.model.NetworkPlayer;
 import potlemon.core.model.Player;
-import potlemon.core.network.client.ClientListener;
-import potlemon.core.network.client.PotlemonClient;
 import potlemon.core.network.dto.NetworkDTO;
 import potlemon.core.network.dto.PlayerDTO;
 import potlemon.core.network.events.NetworkEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PokeWorld extends AbstractScreen {
 

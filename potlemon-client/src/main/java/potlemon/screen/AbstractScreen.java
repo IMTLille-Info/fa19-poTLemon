@@ -12,7 +12,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import potlemon.core.interfaces.NetworkElement;
 import potlemon.core.model.NetworkPlayer;
 import potlemon.core.model.Player;
-import potlemon.core.network.client.ClientListener;
+import potlemon.core.model.PlayerEvent;
+import potlemon.core.tools.ClientListener;
 import potlemon.core.network.client.PotlemonClient;
 import potlemon.core.network.dto.NetworkDTO;
 import potlemon.core.network.dto.PlayerDTO;
@@ -63,6 +64,8 @@ public abstract class AbstractScreen implements Screen {
      * Add network listener.
      */
     protected void addNetworkListener() {
+
+        // add a listener to the client
         networkClient.addListener(new ClientListener() {
             @Override
             public void onEvent(NetworkEvent event, Object o) {
@@ -100,6 +103,12 @@ public abstract class AbstractScreen implements Screen {
                                     }
                                     break;
 
+                                case UDP_UPDATE_POSITIONS:
+                                    // a player has updated its position
+                                    System.out.println("Received event: UDP_UPDATE_POSITIONS");
+
+                                    break;
+
                                 default:
                                     // unknown
 
@@ -115,6 +124,30 @@ public abstract class AbstractScreen implements Screen {
                     }
                 });
 
+            }
+
+            @Override
+            public void onPlayerEvent(PlayerEvent playerEvent, Player player) {
+            }
+
+        });
+
+        // add emit listener for the player
+        player.addListener(new ClientListener() {
+            @Override
+            public void onEvent(NetworkEvent event, Object o) {
+            }
+
+            @Override
+            public void onPlayerEvent(PlayerEvent playerEvent, Player player) {
+                switch(playerEvent){
+                    case UPDATED_POSITON:
+                        System.out.println("SEND POSITION TO SERVER");
+
+                        networkClient.sendUDPServer(new NetworkDTO(NetworkEvent.TCP_SEND_POSITION,new PlayerDTO(player.getX(), player.getY())));
+
+                        break;
+                }
             }
         });
     }

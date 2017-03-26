@@ -3,15 +3,12 @@ package potlemon.core.network.client;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.sun.jmx.remote.internal.ClientListenerInfo;
 import potlemon.core.network.KryoRegisterClasses;
 import potlemon.core.network.dto.NetworkDTO;
-import potlemon.core.network.dto.PlayerDTO;
-import potlemon.core.network.events.NetworkEvent;
 import potlemon.core.network.config.ServerConfigs;
 import potlemon.core.network.exceptions.NetworkClientException;
+import potlemon.core.tools.ClientListener;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
