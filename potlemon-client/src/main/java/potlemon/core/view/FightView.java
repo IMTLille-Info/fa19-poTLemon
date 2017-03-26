@@ -1,5 +1,5 @@
 
-package potlemon.view;
+package potlemon.core.view;
 
 import potlemon.model.Player;
 

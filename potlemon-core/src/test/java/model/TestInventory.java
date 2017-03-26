@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import potlemon.model.Inventory;
-import potlemon.model.Item;
+import potlemon.core.model.Inventory;
+import potlemon.core.model.Item;
 
 public class TestInventory {
 

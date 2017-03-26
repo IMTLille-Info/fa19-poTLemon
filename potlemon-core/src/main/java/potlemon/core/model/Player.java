@@ -1,4 +1,4 @@
-package potlemon.model;
+package potlemon.core.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
-import potlemon.tools.MapKeys;
+import potlemon.core.tools.MapKeys;
 
 
 public class Player extends Sprite implements InputProcessor{

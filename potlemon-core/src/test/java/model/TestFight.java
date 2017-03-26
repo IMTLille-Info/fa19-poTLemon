@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import potlemon.model.Attack;
-import potlemon.model.Fight;
-import potlemon.model.Pokemon;
-import potlemon.model.Team;
-import potlemon.model.Type;
+import potlemon.core.model.Attack;
+import potlemon.core.model.Fight;
+import potlemon.core.model.Pokemon;
+import potlemon.core.model.Team;
+import potlemon.core.model.Type;
 
 public class TestFight {
 
@@ -23,7 +23,7 @@ public class TestFight {
 		Pokemon p1 = new Pokemon("pikachu", 100, 0, 1, Type.AIR, attacks);
 		Team team1 = new Team();
 		team1.add(p1);
-		potlemon.model.Character c1 = new potlemon.model.Character("test1",team1);
+		potlemon.core.model.Character c1 = new potlemon.core.model.Character("test1",team1);
 		
 		Attack a2 = new Attack("foudre", 20);
 		List<Attack> attacks2 = new ArrayList<Attack>();
@@ -31,7 +31,7 @@ public class TestFight {
 		Pokemon p2 = new Pokemon("pikachu", 100, 0, 1, Type.AIR, attacks2);
 		Team team2 = new Team();
 		team2.add(p2);
-		potlemon.model.Character c2 = new potlemon.model.Character("test2", team2);
+		potlemon.core.model.Character c2 = new potlemon.core.model.Character("test2", team2);
 		
 		Fight fight = new Fight(c1, c2);
 		fight.attack(a1);
@@ -46,7 +46,7 @@ public class TestFight {
 		Pokemon p1 = new Pokemon("pikachu", 100, 0, 1, Type.AIR, attacks);
 		Team team1 = new Team();
 		team1.add(p1);
-		potlemon.model.Character c1 = new potlemon.model.Character("test1",team1);
+		potlemon.core.model.Character c1 = new potlemon.core.model.Character("test1",team1);
 		
 		Attack a2 = new Attack("foudre", 20);
 		List<Attack> attacks2 = new ArrayList<Attack>();
@@ -54,7 +54,7 @@ public class TestFight {
 		Pokemon p2 = new Pokemon("pikachu", 100, 0, 1, Type.AIR, attacks2);
 		Team team2 = new Team();
 		team2.add(p2);
-		potlemon.model.Character c2 = new potlemon.model.Character("test2", team2);
+		potlemon.core.model.Character c2 = new potlemon.core.model.Character("test2", team2);
 		
 		Fight fight = new Fight(c1, c2);
 		fight.swap();
@@ -69,7 +69,7 @@ public class TestFight {
 		Pokemon p1 = new Pokemon("pikachu", 100, 0, 1, Type.AIR, attacks);
 		Team team1 = new Team();
 		team1.add(p1);
-		potlemon.model.Character c1 = new potlemon.model.Character("test1",team1);
+		potlemon.core.model.Character c1 = new potlemon.core.model.Character("test1",team1);
 		
 		Attack a2 = new Attack("foudre", 20);
 		List<Attack> attacks2 = new ArrayList<Attack>();
@@ -77,7 +77,7 @@ public class TestFight {
 		Pokemon p2 = new Pokemon("pikachu",0, 0, 1, Type.AIR, attacks2);
 		Team team2 = new Team();
 		team2.add(p2);
-		potlemon.model.Character c2 = new potlemon.model.Character("test2", team2);
+		potlemon.core.model.Character c2 = new potlemon.core.model.Character("test2", team2);
 		
 		Fight fight = new Fight(c1, c2);
 		
@@ -92,7 +92,7 @@ public class TestFight {
 		Pokemon p1 = new Pokemon("pikachu", 100, 0, 1, Type.AIR, attacks);
 		Team team1 = new Team();
 		team1.add(p1);
-		potlemon.model.Character c1 = new potlemon.model.Character("test1",team1);
+		potlemon.core.model.Character c1 = new potlemon.core.model.Character("test1",team1);
 		
 		Attack a2 = new Attack("foudre", 20);
 		List<Attack> attacks2 = new ArrayList<Attack>();
@@ -100,7 +100,7 @@ public class TestFight {
 		Pokemon p2 = new Pokemon("pikachu",100, 0, 1, Type.AIR, attacks2);
 		Team team2 = new Team();
 		team2.add(p2);
-		potlemon.model.Character c2 = new potlemon.model.Character("test2", team2);
+		potlemon.core.model.Character c2 = new potlemon.core.model.Character("test2", team2);
 		
 		Fight fight = new Fight(c1, c2);
 		

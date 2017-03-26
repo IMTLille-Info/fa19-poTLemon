@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import potlemon.model.Pokemon;
+import potlemon.core.model.Pokemon;
 
 public class TestPokemon {
 

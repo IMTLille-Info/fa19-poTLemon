@@ -12,7 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import potlemon.model.Player;
+import potlemon.core.model.Player;
 
 public class PokeWorld implements Screen {
 
@@ -26,13 +26,13 @@ public class PokeWorld implements Screen {
     private Player player;
     
     public void show() {
-        map = new TmxMapLoader().load("../sprites/TileMap/WorldStart.tmx");
+        map = new TmxMapLoader().load("sprites/TileMap/WorldStart.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
         
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         
-        player = new Player(new Sprite(new Texture("../sprites/human/brendan.png")), (TiledMapTileLayer) map.getLayers().get(0));
+        player = new Player(new Sprite(new Texture("sprites/human/brendan.png")), (TiledMapTileLayer) map.getLayers().get(0));
         spriteBatch = new SpriteBatch();
         player.setPosition(220, 500);
         

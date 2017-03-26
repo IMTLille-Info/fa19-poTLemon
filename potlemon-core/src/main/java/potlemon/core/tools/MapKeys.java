@@ -1,4 +1,4 @@
-package potlemon.tools;
+package potlemon.core.tools;
 
 
 public enum MapKeys {

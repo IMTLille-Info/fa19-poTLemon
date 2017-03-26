@@ -1,18 +1,18 @@
-package potlemon;
+package potlemon.core;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import potlemon.model.Attack;
-import potlemon.model.Character;
-import potlemon.model.Fight;
-import potlemon.model.Inventory;
-import potlemon.model.Item;
-import potlemon.model.Pokemon;
-import potlemon.model.Team;
-import potlemon.model.Type;
-import potlemon.tools.BDDFactory;
+import potlemon.core.model.Attack;
+import potlemon.core.model.Character;
+import potlemon.core.model.Fight;
+import potlemon.core.model.Inventory;
+import potlemon.core.model.Item;
+import potlemon.core.model.Pokemon;
+import potlemon.core.model.Team;
+import potlemon.core.model.Type;
+import potlemon.core.tools.BDDFactory;
 
 /**
  *
@@ -91,7 +91,7 @@ public class AppMain {
 					fight.swap();
 				}
 				else{
-					System.out.println("Combat terminé. " + fight.getC1().getName() + " a gagné");
+					System.out.println("Combat terminï¿½. " + fight.getC1().getName() + " a gagnï¿½");
 				}
 				break;
 			case 2:

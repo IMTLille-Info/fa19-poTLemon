@@ -8,10 +8,11 @@
         <groupId>telecon.fa19</groupId>
         <version>1.0</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>potlemon-client</artifactId>
-    <!--<packaging>jar</packaging>-->
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- ONLY USEFUL FOR CLIENT -->
@@ -21,7 +22,7 @@
             <version>${version.core}</version>
         </dependency>
         
-    <!-- LIBGDX -->
+        <!-- LIBGDX -->
         
         <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx -->
         <dependency>
@@ -60,7 +61,7 @@
             <!-- <classifier>natives-desktop</classifier> -->
         </dependency>
             
-    <!-- END LIBGDX -->
+        <!-- END LIBGDX -->
         
         
         <!-- COMMON -->
@@ -75,5 +76,44 @@
             <type>maven-plugin</type>
         </dependency>
     </dependencies>
+    
+     
+    <build>
+        <plugins>
+            <!-- any other plugins -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>Main</mainClass>
+                        </manifest>
+                    </archive>
+                    
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

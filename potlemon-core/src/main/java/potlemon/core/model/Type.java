@@ -1,4 +1,4 @@
-package potlemon.model;
+package potlemon.core.model;
 
 /**
  * enum for pokemon type

@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import potlemon.model.Pokemon;
-import potlemon.model.Team;
+import potlemon.core.model.Pokemon;
+import potlemon.core.model.Team;
 
 public class TestTeam {
 
