@@ -18,15 +18,16 @@ import potlemon.core.network.events.NetworkEvent;
 public class PokeWorld extends AbstractScreen {
 
 
-    private Sprite networkSprite;
+    private String mapfile;
 
-    public PokeWorld() {
+    public PokeWorld(String mapfile) {
         super();
+        this.mapfile = mapfile;
     }
 
 
     public void show() {
-        map = new TmxMapLoader().load("sprites/TileMap/WorldStart.tmx");
+        map = new TmxMapLoader().load(mapfile);
         renderer = new OrthogonalTiledMapRenderer(map);
 
         camera = new OrthographicCamera();
@@ -46,10 +47,6 @@ public class PokeWorld extends AbstractScreen {
 
             //send HELLO to server
             networkClient.sendTCPServer(new NetworkDTO(NetworkEvent.TCP_HELLO, new PlayerDTO(player.getX(),player.getY())));
-
-            // load network sprite
-            networkSprite = new Sprite(new Texture("sprites/human/network.png"));
-
         }
 
 

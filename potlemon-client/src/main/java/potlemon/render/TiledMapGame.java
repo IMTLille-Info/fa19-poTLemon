@@ -3,6 +3,7 @@ package potlemon.render;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import potlemon.core.network.client.PotlemonClient;
 import potlemon.core.network.exceptions.NetworkClientException;
+import potlemon.screen.PokeFight;
 import potlemon.screen.PokeWorld;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -16,7 +17,7 @@ public class TiledMapGame extends Game {
     private PotlemonClient networkClient =  PotlemonClient.getInstance();
 
     public void create() {
-        setScreen(new PokeWorld());
+        setScreen(new PokeWorld("sprites/TileMap/WorldStart.tmx"));
     }
 
     @Override
@@ -33,11 +34,20 @@ public class TiledMapGame extends Game {
                 networkClient.removeListeners();
 
                 setScreen(getScreen().getClass().newInstance());
+
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
+        } else if (Gdx.input.isKeyPressed(Keys.F1) || Gdx.input.isKeyPressed(Keys.F2)) {
+
+            if(Gdx.input.isKeyPressed(Keys.F1)){
+                setScreen(new PokeWorld("sprites/TileMap/WorldStart.tmx"));
+            } else {
+                setScreen(new PokeFight());
+            }
+
         } else if (Gdx.input.isKeyPressed(Keys.N)) {
 
             if (!networkClient.isStarted()) {
