@@ -40,9 +40,12 @@ public abstract class AbstractScreen implements Screen {
 
     protected Music music;
 
+    protected float initTime = 0;
 
     // create network client
     public AbstractScreen() {
+        initTime=Gdx.graphics.getDeltaTime();
+
         networkClient = PotlemonClient.getInstance();
     }
 
