@@ -200,6 +200,11 @@ public class PotlemonServer extends Listener implements Disposable {
             }
             connectedClient.setX(((PlayerDTO) o.data).getX());
             connectedClient.setY(((PlayerDTO) o.data).getY());
+            Logger.log(getClass().toString(), "Player " + connectedClient.getID() + " has updated position: " + connectedClient.getX() + "," + connectedClient.getY());
+
+
+            if (tickTime % 16 > 0)
+                return;
 
             // UPDATE PLAYER POSITION FOR THE OTHERS
             queue.add(new Runnable() {
@@ -210,7 +215,6 @@ public class PotlemonServer extends Listener implements Disposable {
                 }
             });
 
-            Logger.log(getClass().toString(), "Player " + connectedClient.getID() + " has updated position: " + connectedClient.getX() + "," + connectedClient.getY());
         }
 
     }
