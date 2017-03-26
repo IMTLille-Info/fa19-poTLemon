@@ -54,7 +54,7 @@ public abstract class AbstractScreen implements Screen {
             PlayerDTO playerDTO = (PlayerDTO) netPackage;
 
             // TEST network elements
-            networkElements.add(new NetworkPlayer(new Sprite(new Texture("sprites/human/network.png")), (TiledMapTileLayer) map.getLayers().get(0)));
+            networkElements.add(new NetworkPlayer(playerDTO.getId(), new Sprite(new Texture("sprites/human/network.png")), (TiledMapTileLayer) map.getLayers().get(0)));
             ((NetworkPlayer) networkElements.get(0)).setPosition(playerDTO.getX(), playerDTO.getY());
 
         }
@@ -80,7 +80,7 @@ public abstract class AbstractScreen implements Screen {
                         if (o instanceof NetworkDTO) {
                             NetworkDTO netDTO = (NetworkDTO) o;
 
-                            if(netDTO.event==null){
+                            if (netDTO.event == null) {
                                 System.out.println("EVENT NULL");
                                 return;
                             }
@@ -91,7 +91,7 @@ public abstract class AbstractScreen implements Screen {
                                 case TCP_NEW_PLAYER:
                                     System.out.println("Received event: TCP_NEW_PLAYER");
                                     // add a player
-                                    addNetworkElement((PlayerDTO)netDTO.data);
+                                    addNetworkElement((PlayerDTO) netDTO.data);
                                     break;
 
                                 case TCP_ALL_PLAYERS:
@@ -103,16 +103,33 @@ public abstract class AbstractScreen implements Screen {
                                     }
                                     break;
 
-                                case UDP_UPDATE_POSITIONS:
+                                case TCP_UPDATE_POSITIONS:
                                     // a player has updated its position
-                                    System.out.println("Received event: UDP_UPDATE_POSITIONS");
+                                    System.out.println("Received event: TCP_UPDATE_POSITIONS");
+
+                                    PlayerDTO movedPlayer = (PlayerDTO) ((NetworkDTO) o).data;
+
+                                    // find the network element with the same id...
+                                    for (NetworkElement networkElement :
+                                            networkElements) {
+                                        if (!(networkElement instanceof NetworkPlayer)) {
+                                            continue;
+                                        }
+
+                                        NetworkPlayer networkPlayer = (NetworkPlayer) networkElement;
+                                        if (networkPlayer.getId() == movedPlayer.getId()) {
+                                            networkPlayer.setX(movedPlayer.getX());
+                                            networkPlayer.setY(movedPlayer.getY());
+                                            System.out.println("moved player");
+                                        }
+                                    }
 
                                     break;
 
                                 default:
                                     // unknown
 
-                                    System.out.println("Received event: UNKNOWN"+netDTO.event.name());
+                                    System.out.println("Received event: UNKNOWN" + netDTO.event.name());
                                     break;
 
 
@@ -140,11 +157,11 @@ public abstract class AbstractScreen implements Screen {
 
             @Override
             public void onPlayerEvent(PlayerEvent playerEvent, Player player) {
-                switch(playerEvent){
+                switch (playerEvent) {
                     case UPDATED_POSITON:
-                        System.out.println("SEND POSITION TO SERVER");
+                        //System.out.println("SEND POSITION TO SERVER");
 
-                        networkClient.sendUDPServer(new NetworkDTO(NetworkEvent.TCP_SEND_POSITION,new PlayerDTO(player.getX(), player.getY())));
+                        networkClient.sendUDPServer(new NetworkDTO(NetworkEvent.TCP_SEND_POSITION, new PlayerDTO(player.getX(), player.getY())));
 
                         break;
                 }

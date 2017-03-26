@@ -7,8 +7,8 @@ import potlemon.core.network.server.NetPackage;
  */
 public class PlayerDTO extends NetPackage implements NetworkDTOData {
     private int id;
-    public float x;
-    public float y;
+    private float x;
+    private float y;
 
     public PlayerDTO(int id, float x, float y) {
         this.id = id;
@@ -29,5 +29,9 @@ public class PlayerDTO extends NetPackage implements NetworkDTOData {
 
     public float getX() {
         return x;
+    }
+
+    public int getId() {
+        return id;
     }
 }

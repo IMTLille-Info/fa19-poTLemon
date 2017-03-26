@@ -10,7 +10,7 @@ public enum NetworkEvent implements Serializable
 {
     TCP_HELLO, TCP_NEW_PLAYER, TCP_ALL_PLAYERS,
     TCP_SEND_POSITION,
-    UDP_UPDATE_POSITIONS;
+    TCP_UPDATE_POSITIONS;
 
     NetworkEvent(){
 

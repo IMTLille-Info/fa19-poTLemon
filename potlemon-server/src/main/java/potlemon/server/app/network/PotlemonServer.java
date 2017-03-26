@@ -198,12 +198,19 @@ public class PotlemonServer extends Listener implements Disposable {
                 Logger.log(getClass().toString(), "SEND_POSITION failed, not a player dto");
                 return;
             }
-            connectedClient.setX(((PlayerDTO)o.data).getX());
-            connectedClient.setY(((PlayerDTO)o.data).getY());
+            connectedClient.setX(((PlayerDTO) o.data).getX());
+            connectedClient.setY(((PlayerDTO) o.data).getY());
 
-            // HAVE TO FIND POSITION
+            // UPDATE PLAYER POSITION FOR THE OTHERS
+            queue.add(new Runnable() {
+                @Override
+                public void run() {
+                    NetworkDTO toSend = new NetworkDTO(NetworkEvent.TCP_UPDATE_POSITIONS, new PlayerDTO(connectedClient.getId(), connectedClient.getX(), connectedClient.getY()));
+                    sendToAllExceptTCP(connectedClient.getID(), toSend);
+                }
+            });
 
-        Logger.log(getClass().toString(), "Player " + connectedClient.getID() +" has updated position: "+ connectedClient.getX()+ ","+connectedClient.getY());
+            Logger.log(getClass().toString(), "Player " + connectedClient.getID() + " has updated position: " + connectedClient.getX() + "," + connectedClient.getY());
         }
 
     }

@@ -14,11 +14,19 @@ import potlemon.core.tools.MapKeys;
 
 public class NetworkPlayer extends Player implements NetworkElement {
 
-    public NetworkPlayer(Sprite sprite, TiledMapTileLayer collisionLayer) {
+    private int id;
+
+    public NetworkPlayer(int id, Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite, collisionLayer);
+        this.id = id;
     }
 
-    public NetworkPlayer(String texturePath, TiledMapTileLayer collisionLayer) {
+    public NetworkPlayer(int id, String texturePath, TiledMapTileLayer collisionLayer) {
         super(texturePath, collisionLayer);
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }
