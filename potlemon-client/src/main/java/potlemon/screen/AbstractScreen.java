@@ -14,6 +14,7 @@ import potlemon.core.model.NetworkPlayer;
 import potlemon.core.model.Player;
 import potlemon.core.network.client.ClientListener;
 import potlemon.core.network.client.PotlemonClient;
+import potlemon.core.network.dto.NetworkDTO;
 import potlemon.core.network.dto.PlayerDTO;
 import potlemon.core.network.events.NetworkEvent;
 import potlemon.core.network.server.NetPackage;
@@ -46,9 +47,9 @@ public abstract class AbstractScreen implements Screen {
     /**
      *
      */
-    public void addNetworkElement(NetPackage netPackage){
+    public void addNetworkElement(NetPackage netPackage) {
         // switch for element
-        if(netPackage instanceof PlayerDTO){
+        if (netPackage instanceof PlayerDTO) {
             PlayerDTO playerDTO = (PlayerDTO) netPackage;
 
             // TEST network elements
@@ -73,13 +74,44 @@ public abstract class AbstractScreen implements Screen {
                     @Override
                     public void run() {
 
-                        if (o instanceof PlayerDTO[]) {
-                            // add players
-                            for (PlayerDTO playerDTO :
-                                    (PlayerDTO[]) o) {
-                                addNetworkElement(playerDTO);
+                        if (o instanceof NetworkDTO) {
+                            NetworkDTO netDTO = (NetworkDTO) o;
+
+                            if(netDTO.event==null){
+                                System.out.println("EVENT NULL");
+                                return;
                             }
+
+                            // switch on event
+                            switch (netDTO.event) {
+
+                                case TCP_NEW_PLAYER:
+                                    System.out.println("Received event: TCP_NEW_PLAYER");
+                                    // add a player
+                                    addNetworkElement((PlayerDTO)netDTO.data);
+                                    break;
+
+                                case TCP_ALL_PLAYERS:
+                                    System.out.println("Received event: TCP_ALL_PLAYERS");
+                                    // gets all player
+                                    for (PlayerDTO playerDTO :
+                                            (PlayerDTO[]) netDTO.dataArray) {
+                                        addNetworkElement(playerDTO);
+                                    }
+                                    break;
+
+                                default:
+                                    // unknown
+
+                                    System.out.println("Received event: UNKNOWN"+netDTO.event.name());
+                                    break;
+
+
+                            }
+
+
                         }
+
                     }
                 });
 

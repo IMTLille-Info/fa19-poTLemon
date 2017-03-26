@@ -15,6 +15,7 @@ public class KryoRegisterClasses {
         kryo.register(NetworkEvent.class);
         kryo.register(NetworkDTO.class);
         kryo.register(NetworkDTOData.class);
+        kryo.register(NetworkDTOData[].class);
         kryo.register(NetPackage.class);
         kryo.register(PlayerDTO.class);
         kryo.register(PlayerDTO[].class);

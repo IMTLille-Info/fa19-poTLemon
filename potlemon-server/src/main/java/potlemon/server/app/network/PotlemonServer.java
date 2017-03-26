@@ -162,7 +162,8 @@ public class PotlemonServer extends Listener implements Disposable {
             connectedClient.setX(((PlayerDTO) o.data).getX());
             connectedClient.setY(((PlayerDTO) o.data).getY());
 
-            sendToAllExceptTCP(connectedClient.getID(), new NetworkDTO(NetworkEvent.TCP_NEW_PLAYER, new PlayerDTO(connectedClient.getID(), connectedClient.getX(), connectedClient.getY())));
+            // send others player the notification a player just logged
+            sendToAllExceptTCP(connection.getID(), new NetworkDTO(NetworkEvent.TCP_NEW_PLAYER, new PlayerDTO(connectedClient.getID(), connectedClient.getX(), connectedClient.getY())));
 
             // have to send to this client, the whole connected players
             PlayerDTO[] allClients = new PlayerDTO[connectedClients.size-1];
@@ -178,7 +179,9 @@ public class PotlemonServer extends Listener implements Disposable {
                 allClients[i++] = new PlayerDTO(c.getId(), c.getX(), c.getY());
             }
 
-            sendToTCP(connection, allClients);
+
+            // send all clients to logged player
+            sendToTCP(connection, new NetworkDTO(NetworkEvent.TCP_ALL_PLAYERS, allClients));
 
         }
 

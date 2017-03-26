@@ -13,6 +13,7 @@ public class NetworkDTO extends NetPackage implements Serializable {
     public NetworkEvent event;
 
     public NetworkDTOData data;
+    public NetworkDTOData[] dataArray;
 
     /**
      * Sends event on network.
@@ -33,4 +34,8 @@ public class NetworkDTO extends NetPackage implements Serializable {
     }
 
 
+    public NetworkDTO(NetworkEvent event, NetworkDTOData[] data) {
+        this.event = event;
+        dataArray = data;
+    }
 }
