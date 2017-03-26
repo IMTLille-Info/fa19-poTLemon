@@ -2,6 +2,7 @@
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import potlemon.render.TiledFightGame;
 import potlemon.render.TiledMapGame;
 
 public class Main {
@@ -12,7 +13,7 @@ public class Main {
         config.width=1280;
         config.height=780;
         
-        new LwjglApplication(new TiledMapGame(), config);
+        new LwjglApplication(new TiledFightGame(), config);
     }
 }
 
