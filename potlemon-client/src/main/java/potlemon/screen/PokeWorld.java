@@ -34,10 +34,10 @@ public class PokeWorld extends AbstractScreen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
-
         // check if player position is defined
         player = new Player("sprites/human/brendan.png", (TiledMapTileLayer) map.getLayers().get(0));
         player.setPosition(200, 500);
+        Gdx.input.setInputProcessor(player);
 
 
         // SEND SERVER
@@ -49,9 +49,12 @@ public class PokeWorld extends AbstractScreen {
             networkClient.sendTCPServer(new NetworkDTO(NetworkEvent.TCP_HELLO, new PlayerDTO(player.getX(),player.getY())));
         }
 
+        // START MUSIC
+        music = Gdx.audio.newMusic(Gdx.files.internal("musics/map.mp3"));
+        music.setLooping(true);
+        music.play();
 
 
-        Gdx.input.setInputProcessor(player);
     }
 
     public void render(float delta) {
@@ -113,6 +116,10 @@ public class PokeWorld extends AbstractScreen {
                 ((Sprite) netElm).getTexture().dispose();
             }
         }
+
+        // clear music
+        music.stop();
+        music.dispose();
     }
 
 
