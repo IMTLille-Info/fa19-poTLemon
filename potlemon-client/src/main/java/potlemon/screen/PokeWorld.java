@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import potlemon.core.interfaces.NetworkElement;
 import potlemon.core.model.NetworkPlayer;
 import potlemon.core.model.Player;
+import potlemon.core.network.client.ClientListener;
 import potlemon.core.network.client.PotlemonClient;
 import potlemon.core.network.dto.NetworkDTO;
 import potlemon.core.network.dto.PlayerDTO;
@@ -26,6 +27,7 @@ import java.util.List;
 public class PokeWorld extends AbstractScreen {
 
 
+    private Sprite networkSprite;
 
     public PokeWorld() {
         super();
@@ -40,6 +42,7 @@ public class PokeWorld extends AbstractScreen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
+
         // check if player position is defined
         player = new Player("sprites/human/brendan.png", (TiledMapTileLayer) map.getLayers().get(0));
         player.setPosition(200, 500);
@@ -52,6 +55,9 @@ public class PokeWorld extends AbstractScreen {
 
             //send HELLO to server
             networkClient.sendTCPServer(new NetworkDTO(NetworkEvent.TCP_HELLO, new PlayerDTO(player.getX(),player.getY())));
+
+            // load network sprite
+            networkSprite = new Sprite(new Texture("sprites/human/network.png"));
 
         }
 
@@ -120,5 +126,6 @@ public class PokeWorld extends AbstractScreen {
             }
         }
     }
+
 
 }

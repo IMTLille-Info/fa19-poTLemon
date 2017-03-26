@@ -1,5 +1,6 @@
 package potlemon.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ import potlemon.core.network.client.ClientListener;
 import potlemon.core.network.client.PotlemonClient;
 import potlemon.core.network.dto.PlayerDTO;
 import potlemon.core.network.events.NetworkEvent;
+import potlemon.core.network.server.NetPackage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,25 +42,48 @@ public abstract class AbstractScreen implements Screen {
         networkClient = PotlemonClient.getInstance();
     }
 
+
+    /**
+     *
+     */
+    public void addNetworkElement(NetPackage netPackage){
+        // switch for element
+        if(netPackage instanceof PlayerDTO){
+            PlayerDTO playerDTO = (PlayerDTO) netPackage;
+
+            // TEST network elements
+            networkElements.add(new NetworkPlayer(new Sprite(new Texture("sprites/human/network.png")), (TiledMapTileLayer) map.getLayers().get(0)));
+            ((NetworkPlayer) networkElements.get(0)).setPosition(playerDTO.getX(), playerDTO.getY());
+
+        }
+    }
+
+    /**
+     * Add network listener.
+     */
     protected void addNetworkListener() {
         networkClient.addListener(new ClientListener() {
             @Override
             public void onEvent(NetworkEvent event, Object o) {
-                if (o instanceof PlayerDTO[]) {
-                    // add players
-                    for (PlayerDTO playerDTO :
-                            (PlayerDTO[]) o) {
 
+                /**
+                 * NEED TO GET THE LIBGDX THREAD...
+                 */
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
 
-                        // @TODO : Sprite loading outside the context??
-                        // TEST network elements
-                        networkElements.add(new NetworkPlayer(new Sprite(new Texture("sprites/human/network.png")), (TiledMapTileLayer) map.getLayers().get(0)));
-                        ((NetworkPlayer) networkElements.get(0)).setPosition(playerDTO.getX(), playerDTO.getY());
-
+                        if (o instanceof PlayerDTO[]) {
+                            // add players
+                            for (PlayerDTO playerDTO :
+                                    (PlayerDTO[]) o) {
+                                addNetworkElement(playerDTO);
+                            }
+                        }
                     }
-                }
+                });
+
             }
         });
     }
-
 }

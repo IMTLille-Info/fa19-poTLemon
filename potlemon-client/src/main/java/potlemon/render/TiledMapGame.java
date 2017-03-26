@@ -51,7 +51,6 @@ public class TiledMapGame extends Game {
             } else {
                 System.out.println("STOPPING network mode...");
                 networkClient.stop();
-                networkClient=null;
             }
 
 
