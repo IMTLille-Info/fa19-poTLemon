@@ -14,6 +14,14 @@ public class TestPokemon {
         p.lostPV(20);
         assertEquals(180, p.getHp());
     }
+    
+    @Test
+    public void TestCheckDead(){
+    	Pokemon p = new Pokemon("p1",200);
+    	assertEquals(false, p.checkDead());
+    	p.lostPV(200);
+    	assertEquals(true, p.checkDead());
+    }
 
     @Test
     public void TestAddHp() {
