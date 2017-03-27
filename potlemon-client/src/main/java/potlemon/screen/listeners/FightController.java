@@ -143,8 +143,9 @@ public class FightController implements InputProcessor {
     private void actionFight() {
         Character attacker = fight.getAttacker();
 
-
-
+        Pokemon attackingPokemon = attacker.getTeam().getFirstPokemonInLife();
+        fight.attack(attackingPokemon.getAttacks().get(0));
+        System.out.println("attack done");
         fight.swap();
     }
 
