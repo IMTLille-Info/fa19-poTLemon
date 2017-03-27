@@ -25,7 +25,6 @@ public class PokeWorld extends AbstractScreen {
         this.mapfile = mapfile;
     }
 
-
     public void show() {
         map = new TmxMapLoader().load(mapfile);
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -53,6 +52,7 @@ public class PokeWorld extends AbstractScreen {
         music = Gdx.audio.newMusic(Gdx.files.internal("musics/map.mp3"));
         music.setLooping(true);
         music.play();
+
 
 
     }

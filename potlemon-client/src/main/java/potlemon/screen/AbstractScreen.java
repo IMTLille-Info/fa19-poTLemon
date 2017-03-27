@@ -47,6 +47,7 @@ public abstract class AbstractScreen implements Screen {
         initTime=Gdx.graphics.getDeltaTime();
 
         networkClient = PotlemonClient.getInstance();
+
     }
 
 

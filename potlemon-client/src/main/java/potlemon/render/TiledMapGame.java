@@ -1,6 +1,10 @@
 package potlemon.render;
 
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import potlemon.core.network.client.PotlemonClient;
 import potlemon.core.network.exceptions.NetworkClientException;
 import potlemon.screen.PokeFight;
@@ -16,8 +20,18 @@ public class TiledMapGame extends Game {
     // NETWORK CLIENT
     private PotlemonClient networkClient =  PotlemonClient.getInstance();
 
+    private Viewport viewport;
+    private Camera camera;
+
     public void create() {
-        setScreen(new PokeWorld("sprites/TileMap/WorldStat.tmx"));
+
+        camera = new PerspectiveCamera();
+        viewport = new FitViewport(1280, 780, camera);
+
+        setScreen(new PokeWorld("sprites/TileMap/WorldStart.tmx"));
+
+        viewport.apply();
+
     }
 
     @Override
@@ -28,6 +42,9 @@ public class TiledMapGame extends Game {
     @Override
     public void render() {
         super.render();
+
+        viewport.apply();
+
         if (Gdx.input.isKeyPressed(Keys.R)) {
             try {
                 // removes all listeners on option
@@ -63,13 +80,13 @@ public class TiledMapGame extends Game {
                 networkClient.stop();
             }
 
-
         }
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        viewport.update(width, height);
     }
 
     @Override

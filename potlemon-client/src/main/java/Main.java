@@ -11,7 +11,7 @@ public class Main {
         config.useGL30 = true;
         config.width=1280;
         config.height=780;
-        
+
         new LwjglApplication(new TiledMapGame(), config);
     }
 }

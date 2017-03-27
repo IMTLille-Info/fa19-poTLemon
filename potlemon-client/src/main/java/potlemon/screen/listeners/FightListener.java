@@ -16,6 +16,32 @@ public class FightListener implements InputProcessor {
 
     @Override
     public boolean keyDown(int i) {
+        System.out.println(i);
+        switch (i) {
+            // up
+            case 19:
+                pokeFight.arrowposition[1]--;
+                break;
+            // down
+            case 20:
+                pokeFight.arrowposition[1]++;
+                break;
+            // left
+            case 21:
+                pokeFight.arrowposition[0]--;
+                break;
+            // right
+            case 22:
+                pokeFight.arrowposition[0]++;
+                break;
+
+            case 81:
+                pokeFight.pokemonSpriteList.get(0).getPokemon().addPV(10);
+                pokeFight.pokemonSpriteList.get(1).getPokemon().addPV(-10);
+                break;
+        }
+
+
         return false;
     }
 

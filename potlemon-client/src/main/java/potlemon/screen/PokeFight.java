@@ -24,7 +24,10 @@ public class PokeFight extends AbstractScreen {
     private Texture textureinterface;
     private Sprite spriteinterface;
 
-    private List<PokemonSprite> pokemonSpriteList = new ArrayList<>();
+    public List<PokemonSprite> pokemonSpriteList = new ArrayList<>();
+    private Texture texturearrow;
+    private Sprite spritearrow;
+    public int arrowposition[] = {0, 0};
 
 
     public PokeFight() {
@@ -48,12 +51,19 @@ public class PokeFight extends AbstractScreen {
          * Load all resources here...
          */
         batch = new SpriteBatch();
+
+
         shapeRenderer = new ShapeRenderer();
 
         textureinterface = new Texture(Gdx.files.internal("sprites/pokemon/interface.png"));
         spriteinterface = new Sprite(textureinterface);
         spriteinterface.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         spriteinterface.setPosition(0, 0);
+
+        texturearrow = new Texture(Gdx.files.internal("sprites/pokemon/arrow.png"));
+        spritearrow = new Sprite(texturearrow);
+        spritearrow.setPosition(600, 40);
+
 
         /**
          * EXAMPLES LOADING POKEMON,
@@ -63,7 +73,6 @@ public class PokeFight extends AbstractScreen {
         myPokemon.setScale(3, 3);
         myPokemon.setPosition((float) (Gdx.graphics.getWidth() * 0.2), (float) (Gdx.graphics.getHeight() * 0.45));
         pokemonSpriteList.add(myPokemon);
-
 
 
         PokemonSprite advPokemon = new PokemonSprite(new Pokemon(7, "Carapuce", 30, 100), false);
@@ -82,14 +91,18 @@ public class PokeFight extends AbstractScreen {
      * @param delta
      */
     public void render(float delta) {
-        Gdx.gl.glClearColor(255, 255, 255, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl20.glViewport( 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+        Gdx.gl20.glClearColor( 255, 255, 255, 1 );
+        Gdx.gl20.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
 
         batch.begin();
 
         // interface
         spriteinterface.draw(batch);
+
+        // draw arrow
+        drawArrow();
 
         /**
          * Draw all the pokemon sprites...
@@ -103,8 +116,8 @@ public class PokeFight extends AbstractScreen {
         batch.end();
 
         // factorize this into functions... just an example here! :)
-        drawLifeBars(pokemonSpriteList.get(0),true);
-        drawLifeBars(pokemonSpriteList.get(1),false);
+        drawLifeBars(pokemonSpriteList.get(0), true);
+        drawLifeBars(pokemonSpriteList.get(1), false);
 
     }
 
@@ -150,6 +163,30 @@ public class PokeFight extends AbstractScreen {
         }
 
         shapeRenderer.end();
+    }
+
+
+    public void drawArrow() {
+        arrowposition[0] %= 2;
+        arrowposition[1] %= 2;
+
+        // X
+        if (arrowposition[0] == 0) {
+            spritearrow.setPosition(600, spritearrow.getY());
+        } else {
+            spritearrow.setPosition(980, spritearrow.getY());
+        }
+
+        // Y
+        if (arrowposition[1] == 0) {
+            spritearrow.setPosition(spritearrow.getX(), 30);
+        } else {
+            spritearrow.setPosition(spritearrow.getX(), 110);
+        }
+
+
+        // draw arrow
+        spritearrow.draw(batch);
     }
 
 
