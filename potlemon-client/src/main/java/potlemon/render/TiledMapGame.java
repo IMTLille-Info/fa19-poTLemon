@@ -17,7 +17,7 @@ public class TiledMapGame extends Game {
     private PotlemonClient networkClient =  PotlemonClient.getInstance();
 
     public void create() {
-        setScreen(new PokeWorld("sprites/TileMap/WorldStart.tmx"));
+        setScreen(new PokeWorld("sprites/TileMap/WorldStat.tmx"));
     }
 
     @Override
