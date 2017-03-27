@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import potlemon.core.GameManager;
 import potlemon.core.network.client.PotlemonClient;
 import potlemon.core.network.exceptions.NetworkClientException;
 import potlemon.screen.PokeFight;
@@ -22,11 +23,16 @@ public class TiledMapGame extends Game {
 
     private Viewport viewport;
     private Camera camera;
+    private GameManager gameManager;
 
     public void create() {
 
         camera = new PerspectiveCamera();
         viewport = new FitViewport(1280, 780, camera);
+
+
+        // get the gamemanager
+        gameManager = GameManager.getInstance();
 
         setScreen(new PokeWorld("sprites/TileMap/WorldStart.tmx"));
 

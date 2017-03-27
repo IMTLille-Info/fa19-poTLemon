@@ -18,7 +18,15 @@ import potlemon.core.network.events.NetworkEvent;
 public class PokeWorld extends AbstractScreen {
 
 
-    private String mapfile;
+    private static String mapfile;
+
+
+    public PokeWorld() throws Exception {
+        // should have a map file...
+        if(mapfile==null){
+            throw new Exception("Can't be called.");
+        }
+    }
 
     public PokeWorld(String mapfile) {
         super();
