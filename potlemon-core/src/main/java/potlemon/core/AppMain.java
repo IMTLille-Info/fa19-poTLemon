@@ -75,7 +75,7 @@ public class AppMain {
 		System.out.println("Your fight :");
 		Fight fight = new Fight(c1, c2);
 
-		while(!fight.isFinish()) {
+		while(!fight.getC2().getTeam().everyoneIsDead()) {
 			System.out.println("1.Attack");
 			System.out.println("2.Show inventory");
 			System.out.println("3.Manage Team");
@@ -86,7 +86,7 @@ public class AppMain {
 			case 1: // attack
 				showAttack(fight.getC1());
 				fight.attack(fight.getC1().getTeam().getFirstPokemon().getAttacks().get(getChoiceInt()-1));
-				if(!fight.isFinish()){
+				if(!fight.getC2().getTeam().everyoneIsDead()){
 					System.out.println(fight.getC2().getTeam().getFirstPokemon().getName() + " a maintenant " +  fight.getC2().getTeam().getFirstPokemon().getHp() );
 					fight.swap();
 				}
