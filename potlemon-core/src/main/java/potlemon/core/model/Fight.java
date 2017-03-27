@@ -18,10 +18,6 @@ public class Fight {
 		this.defender = c2;
 	}
 	
-	public Fight() {
-	
-	}
-	
 	/**
 	 * 
 	 * @param attack
@@ -35,14 +31,6 @@ public class Fight {
 		if(this.attacker.getTeam().getFirstPokemon().checkDead()){
 			this.defender.getTeam().remove(0);
 		}
-	}
-	
-	/**
-	 * 
-	 * @return true if all team dead
-	 */
-	public boolean isFinish(){
-		return defender.getTeam().size()==0;
 	}
 	
 	public Character getC1() {
