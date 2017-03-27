@@ -26,6 +26,24 @@ public class Team {
 		return team.get(0);
 	}
 	
+	
+	public Pokemon getFirstPokemonInLife(){
+		if(this.everyoneIsDead()){
+			return null;
+		}
+		else{
+			for(Pokemon p : team){
+				if(!p.checkDead()){
+					return p;
+				}
+			}
+			return null;
+		}
+	}
+	
+	
+	
+	
 	/**
 	 * swap pokemon place in the team
 	 * return false if an error occurred
@@ -45,7 +63,7 @@ public class Team {
 	
 	public boolean everyoneIsDead(){
 		for(Pokemon p :team){
-			if(p.getHp()> 0){
+			if(!p.checkDead()){
 				return false;
 			}
 		}

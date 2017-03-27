@@ -103,6 +103,10 @@ public class Pokemon {
     public int getHp() {
         return hp;
     }
+    
+    public boolean checkDead(){
+    	return this.hp <= 0;
+    }
 
     public void setHp(int hp) {
         this.hp = hp;
