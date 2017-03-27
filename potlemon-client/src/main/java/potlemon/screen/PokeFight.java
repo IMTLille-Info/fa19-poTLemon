@@ -29,7 +29,7 @@ public class PokeFight extends AbstractScreen {
 
     public List<PokemonSprite> pokemonSpriteList = new ArrayList<>();
 
-    private Map<Pokemon, PokemonSprite> allPokemons = new HashMap<>();
+    public Map<Pokemon, PokemonSprite> allPokemons = new HashMap<>();
 
     private Texture texturearrow;
     private Sprite spritearrow;
@@ -114,7 +114,7 @@ public class PokeFight extends AbstractScreen {
     private void addPokemonSprites(List<Pokemon> pokemons, boolean adver) {
         for (Pokemon pok :
                 pokemons) {
-            PokemonSprite pokemonSprite = new PokemonSprite(pok, !adver);
+            PokemonSprite pokemonSprite = new PokemonSprite(pok, loadCrySound(pok.getId()), !adver);
             pokemonSprite.setScale(3, 3);
 
             // set window position
@@ -124,8 +124,7 @@ public class PokeFight extends AbstractScreen {
                 pokemonSprite.setPosition((float) (Gdx.graphics.getWidth() * 0.7), (float) (Gdx.graphics.getHeight() * 0.7));
 
 
-            pokemonSprite.setPosition(10, 30);
-
+            pokemonSpriteList.add(pokemonSprite);
             allPokemons.put(pok, pokemonSprite);
         }
     }
@@ -136,12 +135,9 @@ public class PokeFight extends AbstractScreen {
      * @param delta
      */
     public void render(float delta) {
-        Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl20.glClearColor(255, 255, 255, 1);
-        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-        batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 
@@ -156,24 +152,25 @@ public class PokeFight extends AbstractScreen {
          */
 
         // get my pokemon
-        PokemonSprite myPokeSprite = allPokemons.get(fightController.getPlayerCharacter().getTeam().getFirstPokemonInLife());
+        Pokemon myPokemon = fightController.getPlayerCharacter().getTeam().getFirstPokemonInLife();
+        PokemonSprite myPokeSprite = allPokemons.get(myPokemon);
         namesFont.draw(batch, myPokeSprite.getPokemon().getName().toUpperCase(), 790, 430);
         pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHp()), 800, 340);
         pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHpMax()), 970, 340);
         myPokeSprite.draw(batch);
-        drawLifeBars(myPokeSprite, true);
 
-
-        // get adv pokemon
-        PokemonSprite hisPokeSprite = allPokemons.get(fightController.getAdvCharacter().getTeam().getFirstPokemonInLife());
-        namesFont.draw(batch, hisPokeSprite.getPokemon().getName().toUpperCase(), 54, 730);
-        //hisPokeSprite.draw(batch);
-        drawLifeBars(hisPokeSprite, false);
-
-
+        // his pokemon
+        Pokemon hisPokemon = fightController.getAdvCharacter().getTeam().getFirstPokemonInLife();
+        PokemonSprite hisPokeSprite = allPokemons.get(hisPokemon);
+        namesFont.draw(batch, hisPokeSprite.getPokemon().getName().toUpperCase(), 130, 730);
+        hisPokeSprite.draw(batch);
 
         batch.end();
 
+
+        // BECAUSE SHAPE RENDERER IS USED, SHOULD BE AFTER THE BATCH END
+        drawLifeBars(myPokeSprite, true);
+        drawLifeBars(hisPokeSprite, false);
 
     }
 
@@ -282,7 +279,6 @@ public class PokeFight extends AbstractScreen {
         }
 
 
-
         namesFont.dispose();
         shapeRenderer.dispose();
         spriteinterface.getTexture().dispose();
@@ -306,6 +302,14 @@ public class PokeFight extends AbstractScreen {
 
     }
 
+    /**
+     * Sound loading.
+     * @param sound
+     */
+    public void playSound(Sound sound) {
+        sound.play();
+    }
+
     Map<String, Sound> soundMap = new HashMap<>();
 
     /**
@@ -319,6 +323,16 @@ public class PokeFight extends AbstractScreen {
             soundMap.put(name, sound);
         }
 
+    }
+
+    private Sound loadCrySound(int id) {
+        String name = "cry_" + id;
+        if (!soundMap.containsKey(id)) {
+            Sound sound = Gdx.audio.newSound(Gdx.files.internal("pokesounds/" + id + ".mp3"));
+            soundMap.put(name, sound);
+        }
+
+        return soundMap.get(name);
     }
 
 }

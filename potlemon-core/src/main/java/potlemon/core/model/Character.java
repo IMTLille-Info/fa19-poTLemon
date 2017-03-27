@@ -8,6 +8,7 @@ public class Character {
 	private String name;
 	private Team team;
 	private Inventory inventory;
+	private boolean ia;
 	
 	public Character(){
 		
@@ -43,6 +44,13 @@ public class Character {
 	public Inventory getInventory(){
 		return inventory;
 	}
-	
-	
+
+
+	public boolean isIa() {
+		return ia;
+	}
+
+	public void setIa(boolean ia) {
+		this.ia = ia;
+	}
 }
