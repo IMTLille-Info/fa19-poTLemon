@@ -94,6 +94,15 @@ public class Team {
 	public Pokemon get(int i){
 		return team.get(i);
 	}
+
+	public int getIdx(Pokemon pokemon){
+		for (int i = 0, s = team.size(); i < s; i++) {
+			if(team.get(i)==pokemon){
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	public Pokemon remove(int i){
 		return team.remove(i);

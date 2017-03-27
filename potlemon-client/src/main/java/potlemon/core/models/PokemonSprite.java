@@ -14,6 +14,9 @@ public class PokemonSprite extends Sprite {
     private Pokemon pokemon;
     private Sound cry;
 
+    private boolean userSelected = false;
+    private boolean arrowSelected = false;
+
     public PokemonSprite(Pokemon pokemon, Sound cry, boolean back) {
         super(new Texture(Gdx.files.internal("sprites/pokemon/" + pokemon.getId() + (back == true ? "-back" : "") + ".png")));
         this.pokemon = pokemon;
@@ -38,5 +41,22 @@ public class PokemonSprite extends Sprite {
 
     public Sound getCry() {
         return cry;
+    }
+
+    public boolean isUserSelected() {
+        return userSelected;
+    }
+
+    public void setUserSelected(boolean userSelected) {
+        this.userSelected = userSelected;
+    }
+
+
+    public void setArrowSelected(boolean arrowSelected) {
+        this.arrowSelected = arrowSelected;
+    }
+
+    public boolean isArrowSelected() {
+        return arrowSelected;
     }
 }

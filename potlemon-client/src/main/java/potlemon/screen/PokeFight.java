@@ -21,6 +21,11 @@ import java.util.*;
 public class PokeFight extends AbstractScreen {
 
 
+    public static final int MODE_FIGHT = 1;
+    public static final int MODE_POKEMON_SELECTION = 2;
+
+    public int windowMode = PokeFight.MODE_FIGHT;
+
     private SpriteBatch batch;
 
     private ShapeRenderer shapeRenderer;
@@ -42,7 +47,6 @@ public class PokeFight extends AbstractScreen {
     public PokeFight() {
         super();
         gameManager = GameManager.getInstance();
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
     /**
@@ -139,6 +143,61 @@ public class PokeFight extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+        switch (windowMode) {
+            case MODE_FIGHT:
+                renderForFight(delta);
+                break;
+
+            case MODE_POKEMON_SELECTION:
+                renderForSelection(delta);
+                break;
+        }
+
+    }
+
+    private void renderForSelection(float delta) {
+
+        batch.begin();
+
+        int i = 0;
+        List<Pokemon> myPokes = gameManager.getPlayerCharacter().getTeam().getTeam();
+        for (Pokemon pokemon :
+                myPokes) {
+            PokemonSprite pokemonSprite = allPokemons.get(pokemon);
+
+            int x = 300,
+                    y = Gdx.graphics.getHeight() - 100 - 100 * i;
+
+            int posArrow=Math.abs(arrowposition[1]%myPokes.size());
+            if ( posArrow== i) {
+                spritearrow.setPosition(x-100,y-spritearrow.getHeight()/2-15);
+
+                spritearrow.draw(batch);
+                pokemonSprite.setArrowSelected(true);
+            } else {
+                pokemonSprite.setArrowSelected(false);
+            }
+
+            if(pokemonSprite.isUserSelected()){
+                namesFont.setColor(Color.YELLOW);
+            } else {
+                namesFont.setColor(Color.BLACK);
+            }
+            namesFont.draw(batch, pokemon.getName().toUpperCase() + (pokemon.checkDead() ? " - [DEAD]" : ""), x, y);
+            i++;
+        }
+
+        batch.end();
+
+    }
+
+
+    /**
+     * If it's fight...
+     *
+     * @param delta
+     */
+    private void renderForFight(float delta) {
         batch.begin();
 
         // interface
@@ -171,7 +230,6 @@ public class PokeFight extends AbstractScreen {
         // BECAUSE SHAPE RENDERER IS USED, SHOULD BE AFTER THE BATCH END
         drawLifeBars(myPokeSprite, true);
         drawLifeBars(hisPokeSprite, false);
-
     }
 
     /**
@@ -219,6 +277,9 @@ public class PokeFight extends AbstractScreen {
     }
 
 
+    /**
+     * Draw menu arrow
+     */
     public void drawArrow() {
         arrowposition[0] %= 2;
         arrowposition[1] %= 2;
@@ -304,6 +365,7 @@ public class PokeFight extends AbstractScreen {
 
     /**
      * Sound loading.
+     *
      * @param sound
      */
     public void playSound(Sound sound) {
