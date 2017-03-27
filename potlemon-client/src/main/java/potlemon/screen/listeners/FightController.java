@@ -16,8 +16,12 @@ import javax.swing.*;
  */
 public class FightController implements InputProcessor {
     private final Fight fight;
+
     private final Character playerCharacter;
+    private final Character advCharacter;
+
     private PokeFight pokeFight;
+
 
     public FightController(PokeFight pokeFight) {
         this.pokeFight = pokeFight;
@@ -25,11 +29,17 @@ public class FightController implements InputProcessor {
 
         Team teamIA = new Team();
         teamIA.add(new Pokemon(6, "Dracaufeu", 230, 230));
-        Character IACHARA = new Character("IA", teamIA);
+        advCharacter = new Character("IA", teamIA);
 
         playerCharacter = GameManager.getInstance().getPlayerCharacter();
 
-        this.fight = new Fight(playerCharacter, IACHARA);
+        this.fight = new Fight(playerCharacter, advCharacter);
+
+
+
+
+
+
 
     }
 
@@ -149,4 +159,16 @@ public class FightController implements InputProcessor {
         fight.swap();
     }
 
+    public Fight getFight() {
+        return fight;
+    }
+
+
+    public Character getPlayerCharacter() {
+        return playerCharacter;
+    }
+
+    public Character getAdvCharacter() {
+        return advCharacter;
+    }
 }

@@ -99,4 +99,7 @@ public class Team {
 		return team.remove(i);
 	}
 
+	public List<Pokemon> getTeam() {
+		return team;
+	}
 }

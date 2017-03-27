@@ -26,4 +26,10 @@ public class PokemonSprite extends Sprite {
     public Pokemon getPokemon() {
         return pokemon;
     }
+
+
+    @Override
+    public String toString() {
+        return "Asset:" + getX()+","+getY()+": " + pokemon.toString();
+    }
 }

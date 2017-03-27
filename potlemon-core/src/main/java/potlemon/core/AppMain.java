@@ -69,7 +69,6 @@ public class AppMain {
 
 	/**
 	 * Show inventory's information
-	 * @param character
 	 */
 	public static void showFight(Character c1, Character c2){
 		System.out.println("Your fight :");

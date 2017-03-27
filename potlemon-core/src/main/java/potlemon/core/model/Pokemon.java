@@ -197,4 +197,19 @@ public class Pokemon {
     public int getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Pokemon{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", hp=" + hp +
+                ", hpMax=" + hpMax +
+                ", level=" + level +
+                ", defense=" + defense +
+                ", type=" + type +
+                ", xpBeforeLevel=" + xpBeforeLevel +
+                ", xp=" + xp +
+                '}';
+    }
 }

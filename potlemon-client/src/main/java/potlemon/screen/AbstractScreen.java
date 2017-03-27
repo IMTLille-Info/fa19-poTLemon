@@ -48,6 +48,11 @@ public abstract class AbstractScreen implements Screen {
 
         networkClient = PotlemonClient.getInstance();
 
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+
+        camera = new OrthographicCamera(1, h / w);
+
     }
 
 

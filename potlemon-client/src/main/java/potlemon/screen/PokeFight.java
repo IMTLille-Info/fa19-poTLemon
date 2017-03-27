@@ -1,5 +1,6 @@
 package potlemon.screen;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -9,14 +10,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import potlemon.core.GameManager;
 import potlemon.core.model.Pokemon;
+import potlemon.core.model.Team;
 import potlemon.core.models.PokemonSprite;
 import potlemon.screen.listeners.FightController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PokeFight extends AbstractScreen {
 
@@ -28,14 +28,21 @@ public class PokeFight extends AbstractScreen {
     private Sprite spriteinterface;
 
     public List<PokemonSprite> pokemonSpriteList = new ArrayList<>();
+
+    private Map<Pokemon, PokemonSprite> allPokemons = new HashMap<>();
+
     private Texture texturearrow;
     private Sprite spritearrow;
     public int arrowposition[] = {0, 1};
     private BitmapFont namesFont, pvsFont;
+    private FightController fightController;
+    private GameManager gameManager;
 
 
     public PokeFight() {
         super();
+        gameManager = GameManager.getInstance();
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
     /**
@@ -44,6 +51,10 @@ public class PokeFight extends AbstractScreen {
     public void show() {
 
         // get init delta time for animation
+
+        // listener...
+        fightController = new FightController(this);
+        Gdx.input.setInputProcessor(fightController);
 
 
         // add music
@@ -75,24 +86,48 @@ public class PokeFight extends AbstractScreen {
         spritearrow = new Sprite(texturearrow);
 
 
-        /**
-         * EXAMPLES LOADING POKEMON,
-         * maybe make the same thing with all your team
-         */
-        PokemonSprite myPokemon = new PokemonSprite(new Pokemon(22, "Rapasdepic", 100, 100), true);
-        myPokemon.setScale(3, 3);
-        myPokemon.setPosition((float) (Gdx.graphics.getWidth() * 0.2), (float) (Gdx.graphics.getHeight() * 0.45));
-        pokemonSpriteList.add(myPokemon);
+        // create all pokemons
+        createAllPokemons();
+
+    }
+
+    /**
+     * Create all sprites for pokemons.
+     */
+    private void createAllPokemons() {
+
+        // my team
+        Team myTeam = fightController.getPlayerCharacter().getTeam();
+        addPokemonSprites(myTeam.getTeam(), false);
+
+        Team advTeam = fightController.getAdvCharacter().getTeam();
+        addPokemonSprites(advTeam.getTeam(), true);
+
+    }
+
+    /**
+     * Adds a list of pokemon as sprite.
+     *
+     * @param pokemons
+     * @param adver
+     */
+    private void addPokemonSprites(List<Pokemon> pokemons, boolean adver) {
+        for (Pokemon pok :
+                pokemons) {
+            PokemonSprite pokemonSprite = new PokemonSprite(pok, !adver);
+            pokemonSprite.setScale(3, 3);
+
+            // set window position
+            if (!adver)
+                pokemonSprite.setPosition((float) (Gdx.graphics.getWidth() * 0.2), (float) (Gdx.graphics.getHeight() * 0.45));
+            else
+                pokemonSprite.setPosition((float) (Gdx.graphics.getWidth() * 0.7), (float) (Gdx.graphics.getHeight() * 0.7));
 
 
-        PokemonSprite advPokemon = new PokemonSprite(new Pokemon(7, "Carapuce", 100, 100), false);
-        advPokemon.setScale(3, 3);
-        advPokemon.setPosition((float) (Gdx.graphics.getWidth() * 0.7), (float) (Gdx.graphics.getHeight() * 0.7));
-        pokemonSpriteList.add(advPokemon);
+            pokemonSprite.setPosition(10, 30);
 
-
-        // listener...
-        Gdx.input.setInputProcessor(new FightController(this));
+            allPokemons.put(pok, pokemonSprite);
+        }
     }
 
     /**
@@ -106,6 +141,8 @@ public class PokeFight extends AbstractScreen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 
+        batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
 
         // interface
@@ -117,35 +154,26 @@ public class PokeFight extends AbstractScreen {
         /**
          * Draw all the pokemon sprites...
          */
-        int id = 0;
-        for (PokemonSprite pokesprite :
-                pokemonSpriteList) {
-            pokesprite.draw(batch);
 
-            switch (id) {
-                case 0:
-                    // write name of my pokemon
-                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 790, 430);
+        // get my pokemon
+        PokemonSprite myPokeSprite = allPokemons.get(fightController.getPlayerCharacter().getTeam().getFirstPokemonInLife());
+        namesFont.draw(batch, myPokeSprite.getPokemon().getName().toUpperCase(), 790, 430);
+        pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHp()), 800, 340);
+        pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHpMax()), 970, 340);
+        myPokeSprite.draw(batch);
+        drawLifeBars(myPokeSprite, true);
 
-                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHp()), 800, 340);
-                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHpMax()), 970, 340);
 
-                    break;
-                default:
-                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 54, 730);
-                    break;
+        // get adv pokemon
+        PokemonSprite hisPokeSprite = allPokemons.get(fightController.getAdvCharacter().getTeam().getFirstPokemonInLife());
+        namesFont.draw(batch, hisPokeSprite.getPokemon().getName().toUpperCase(), 54, 730);
+        //hisPokeSprite.draw(batch);
+        drawLifeBars(hisPokeSprite, false);
 
-            }
-
-            id++;
-        }
 
 
         batch.end();
 
-        // factorize this into functions... just an example here! :)
-        drawLifeBars(pokemonSpriteList.get(0), true);
-        drawLifeBars(pokemonSpriteList.get(1), false);
 
     }
 
@@ -246,6 +274,14 @@ public class PokeFight extends AbstractScreen {
                 pokemonSpriteList) {
             pok.getTexture().dispose();
         }
+
+        Set<Pokemon> pokemons = allPokemons.keySet();
+        for (Pokemon pokKey :
+                pokemons) {
+            allPokemons.get(pokKey).getTexture().dispose();
+        }
+
+
 
         namesFont.dispose();
         shapeRenderer.dispose();
