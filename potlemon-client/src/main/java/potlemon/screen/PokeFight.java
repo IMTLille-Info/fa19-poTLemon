@@ -27,7 +27,7 @@ public class PokeFight extends AbstractScreen {
     public List<PokemonSprite> pokemonSpriteList = new ArrayList<>();
     private Texture texturearrow;
     private Sprite spritearrow;
-    public int arrowposition[] = {0, 0};
+    public int arrowposition[] = {0, 1};
     private BitmapFont namesFont, pvsFont;
 
 
@@ -70,7 +70,6 @@ public class PokeFight extends AbstractScreen {
 
         texturearrow = new Texture(Gdx.files.internal("sprites/pokemon/arrow.png"));
         spritearrow = new Sprite(texturearrow);
-        spritearrow.setPosition(600, 40);
 
 
         /**
@@ -123,14 +122,14 @@ public class PokeFight extends AbstractScreen {
             switch (id) {
                 case 0:
                     // write name of my pokemon
-                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 670, 400);
+                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 790, 430);
 
-                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHp()), 800, 330);
-                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHpMax()), 890, 330);
+                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHp()), 800, 340);
+                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHpMax()), 970, 340);
 
                     break;
                 default:
-                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 54, 500);
+                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 54, 730);
                     break;
 
             }
@@ -182,10 +181,10 @@ public class PokeFight extends AbstractScreen {
 
         // bottom
         if (position == true) {
-            shapeRenderer.rect(770, 325, width, height);
+            shapeRenderer.rect(770, 355, width, height);
         } else {
             // top
-            shapeRenderer.rect(255, 640, width, height);
+            shapeRenderer.rect(255, 668, width, height);
         }
 
         shapeRenderer.end();

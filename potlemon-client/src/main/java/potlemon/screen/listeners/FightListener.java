@@ -37,7 +37,7 @@ public class FightListener implements InputProcessor {
 
             case 81:
                 pokeFight.pokemonSpriteList.get(0).getPokemon().addPV(10);
-                pokeFight.pokemonSpriteList.get(1).getPokemon().addPV(-10);
+                pokeFight.pokemonSpriteList.get(1).getPokemon().lostPV(10);
                 break;
         }
 
