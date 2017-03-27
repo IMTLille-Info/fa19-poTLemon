@@ -38,7 +38,7 @@ public abstract class AbstractScreen implements Screen {
 
     protected Player player;
 
-    protected Music music;
+    public Music music;
 
     protected float initTime = 0;
 
@@ -78,6 +78,11 @@ public abstract class AbstractScreen implements Screen {
 
         // add a listener to the client
         networkClient.addListener(new ClientListener() {
+            @Override
+            public void onEvent(PlayerEvent event, Object o) {
+
+            }
+
             @Override
             public void onEvent(NetworkEvent event, Object o) {
 
@@ -162,6 +167,11 @@ public abstract class AbstractScreen implements Screen {
 
         // add emit listener for the player
         player.addListener(new ClientListener() {
+            @Override
+            public void onEvent(PlayerEvent event, Object o) {
+
+            }
+
             @Override
             public void onEvent(NetworkEvent event, Object o) {
             }

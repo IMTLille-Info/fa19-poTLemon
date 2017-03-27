@@ -21,11 +21,17 @@ public class Fight {
 	 * @param attack
 	 */
 	public void attack(Attack attack){
-		int attackPoint = attack.getAttackDommage() + this.attacker.getTeam().getFirstPokemon().getLevel() - this.defender.getTeam().getFirstPokemon().getLevel();
+		Pokemon attacker = this.attacker.getTeam().getFirstPokemon();
+		Pokemon defender = this.defender.getTeam().getFirstPokemon();
+
+		int attackPoint = attack.getAttackDommage() + attacker.getLevel() - defender.getLevel();
+
 		if(attackPoint<0){
 			attackPoint = 0;
 		}
-		this.getDefender().getTeam().getFirstPokemon().setHp( this.defender.getTeam().getFirstPokemon().getHp()-attackPoint);
+
+
+		defender.lostPV(attackPoint);
 		if(this.attacker.getTeam().getFirstPokemon().checkDead()){
 			this.defender.getTeam().remove(0);
 		}

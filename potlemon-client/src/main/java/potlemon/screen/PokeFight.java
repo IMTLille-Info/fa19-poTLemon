@@ -2,6 +2,7 @@ package potlemon.screen;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,6 +15,7 @@ import potlemon.core.GameManager;
 import potlemon.core.model.Pokemon;
 import potlemon.core.model.Team;
 import potlemon.core.models.PokemonSprite;
+import potlemon.render.TiledMapGame;
 import potlemon.screen.listeners.FightController;
 
 import java.util.*;
@@ -23,6 +25,7 @@ public class PokeFight extends AbstractScreen {
 
     public static final int MODE_FIGHT = 1;
     public static final int MODE_POKEMON_SELECTION = 2;
+    public static final int MODE_END_MODE = 3;
 
     public int windowMode = PokeFight.MODE_FIGHT;
 
@@ -42,11 +45,20 @@ public class PokeFight extends AbstractScreen {
     private BitmapFont namesFont, pvsFont;
     private FightController fightController;
     private GameManager gameManager;
+    public static TiledMapGame renderer;
+    public Music lostMusic;
+    public Music winMusic;
 
 
     public PokeFight() {
         super();
         gameManager = GameManager.getInstance();
+    }
+
+    public PokeFight(TiledMapGame renderer) {
+        this();
+
+        this.renderer = renderer;
     }
 
     /**
@@ -65,6 +77,9 @@ public class PokeFight extends AbstractScreen {
         music = Gdx.audio.newMusic(Gdx.files.internal("musics/battle_wild.mp3"));
         music.setLooping(true);
         music.play();
+
+        lostMusic = Gdx.audio.newMusic(Gdx.files.internal("musics/lost.mp3"));
+        winMusic = Gdx.audio.newMusic(Gdx.files.internal("musics/victory.mp3"));
 
         /**
          * Load all resources here...
@@ -151,7 +166,32 @@ public class PokeFight extends AbstractScreen {
             case MODE_POKEMON_SELECTION:
                 renderForSelection(delta);
                 break;
+
+            case MODE_END_MODE:
+                renderForEnd(delta);
+                break;
         }
+
+    }
+
+    private void renderForEnd(float delta) {
+        // win or lost
+
+        String sentence = "";
+        if (fightController.haveWin) {
+            sentence += "Congrats, you won this fight! Click [enter]";
+        } else {
+            sentence += "Game over... Click [enter]";
+        }
+
+        int x = 300,
+                y = Gdx.graphics.getHeight() - 200;
+
+        batch.begin();
+        namesFont.setColor(Color.YELLOW);
+        namesFont.draw(batch, sentence, x, y);
+
+        batch.end();
 
     }
 
@@ -168,9 +208,9 @@ public class PokeFight extends AbstractScreen {
             int x = 300,
                     y = Gdx.graphics.getHeight() - 100 - 100 * i;
 
-            int posArrow=Math.abs(arrowposition[1]%myPokes.size());
-            if ( posArrow== i) {
-                spritearrow.setPosition(x-100,y-spritearrow.getHeight()/2-15);
+            int posArrow = Math.abs(arrowposition[1] % myPokes.size());
+            if (posArrow == i) {
+                spritearrow.setPosition(x - 100, y - spritearrow.getHeight() / 2 - 15);
 
                 spritearrow.draw(batch);
                 pokemonSprite.setArrowSelected(true);
@@ -178,7 +218,7 @@ public class PokeFight extends AbstractScreen {
                 pokemonSprite.setArrowSelected(false);
             }
 
-            if(pokemonSprite.isUserSelected()){
+            if (pokemonSprite.isUserSelected()) {
                 namesFont.setColor(Color.YELLOW);
             } else {
                 namesFont.setColor(Color.BLACK);
@@ -209,26 +249,34 @@ public class PokeFight extends AbstractScreen {
         /**
          * Draw all the pokemon sprites...
          */
+        PokemonSprite myPokeSprite = null, hisPokeSprite = null;
 
         // get my pokemon
         Pokemon myPokemon = fightController.getPlayerCharacter().getTeam().getFirstPokemonInLife();
-        PokemonSprite myPokeSprite = allPokemons.get(myPokemon);
-        namesFont.draw(batch, myPokeSprite.getPokemon().getName().toUpperCase(), 790, 430);
-        pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHp()), 800, 340);
-        pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHpMax()), 970, 340);
-        myPokeSprite.draw(batch);
+
+        if (myPokemon != null) {
+            myPokeSprite = allPokemons.get(myPokemon);
+            namesFont.draw(batch, myPokeSprite.getPokemon().getName().toUpperCase(), 790, 430);
+            pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHp()), 800, 340);
+            pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHpMax()), 970, 340);
+            myPokeSprite.draw(batch);
+        }
+
 
         // his pokemon
         Pokemon hisPokemon = fightController.getAdvCharacter().getTeam().getFirstPokemonInLife();
-        PokemonSprite hisPokeSprite = allPokemons.get(hisPokemon);
-        namesFont.draw(batch, hisPokeSprite.getPokemon().getName().toUpperCase(), 130, 730);
-        hisPokeSprite.draw(batch);
+        if (hisPokemon != null) {
+            hisPokeSprite = allPokemons.get(hisPokemon);
+            namesFont.draw(batch, hisPokeSprite.getPokemon().getName().toUpperCase(), 130, 730);
+            hisPokeSprite.draw(batch);
+        }
 
         batch.end();
 
 
         // BECAUSE SHAPE RENDERER IS USED, SHOULD BE AFTER THE BATCH END
         drawLifeBars(myPokeSprite, true);
+
         drawLifeBars(hisPokeSprite, false);
     }
 
@@ -248,6 +296,9 @@ public class PokeFight extends AbstractScreen {
      * @param position      true: BOTTOM; false: TOP
      */
     private void drawLifeBars(PokemonSprite pokemonSprite, boolean position) {
+        if (pokemonSprite == null) {
+            return;
+        }
 
         float p = pokemonSprite.getPokemon().getLifePercentage();
         // get life percent
@@ -339,6 +390,8 @@ public class PokeFight extends AbstractScreen {
             allPokemons.get(pokKey).getTexture().dispose();
         }
 
+        winMusic.dispose();
+        lostMusic.dispose();
 
         namesFont.dispose();
         shapeRenderer.dispose();

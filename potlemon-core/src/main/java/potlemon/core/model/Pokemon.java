@@ -15,6 +15,7 @@ public class Pokemon {
     private List<Attack> attacks;
     private int xpBeforeLevel = 0;
     private int xp = 0;
+    private boolean ejected=false;
 
     /**
      * Gives the pokemon an ID.
@@ -196,6 +197,14 @@ public class Pokemon {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isEjected() {
+        return ejected;
+    }
+
+    public void setEjected(boolean ejected) {
+        this.ejected = ejected;
     }
 
     @Override

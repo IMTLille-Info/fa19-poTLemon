@@ -70,8 +70,18 @@ public class Player extends Sprite implements InputProcessor{
             setY(oldY);
         }
 
+
+
         // notify listener if position has been updated
         if(oldX != getX() || oldY != getY()){
+
+
+            // notify listeners about new cell
+            for (ClientListener ls:
+                    listeners) {
+                ls.onEvent(PlayerEvent.NEW_CELL,collisionLayer.getCell((int) ((getX()+getWidth()) / collisionLayer.getTileWidth()), (int) ((getY()+getHeight()) / collisionLayer.getTileHeight())) );
+            }
+
             notifyUpdatedPosition();
         }
 

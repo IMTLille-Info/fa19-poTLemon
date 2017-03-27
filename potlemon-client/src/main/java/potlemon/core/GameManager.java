@@ -14,6 +14,8 @@ public class GameManager {
     private static GameManager gameManager = null;
     private Character playerCharacter;
 
+    public String mapToLoad = "WorldStart";
+
     /**
      * Returns a single instance
      *
@@ -47,7 +49,7 @@ public class GameManager {
         // OSEF
         Team myTeam = new Team();
 
-        myTeam.add(new Pokemon(7, "Carapuce", 100, 100, 3, Type.WATER, initAttacks()));
+        myTeam.add(new Pokemon(7, "Carapuce", 10, 100, 3, Type.WATER, initAttacks()));
         myTeam.add(new Pokemon(22, "Rapasdepic", 100, 100, 3, Type.AIR, initAttacks()));
         myTeam.add(new Pokemon(6, "Dracaufeu", 100, 100, 3, Type.FIRE, initAttacks()));
 

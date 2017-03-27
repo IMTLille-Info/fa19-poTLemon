@@ -1,7 +1,9 @@
 package potlemon.screen.listeners;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import potlemon.core.GameManager;
 import potlemon.core.model.*;
 import potlemon.core.model.Character;
@@ -23,6 +25,8 @@ public class FightController implements InputProcessor {
     private PokeFight pokeFight;
 
     private boolean systemBusy = false;
+    private boolean changeMade = false;
+    public boolean haveWin=true;
 
 
     public FightController(PokeFight pokeFight) {
@@ -67,6 +71,13 @@ public class FightController implements InputProcessor {
                     pokeFight.windowMode = PokeFight.MODE_FIGHT;
                     pokeFight.arrowposition[0] = 0;
                     pokeFight.arrowposition[1] = 1;
+
+                    if (changeMade) {
+                        fight.swap();
+                        actionFight();
+                    }
+
+                    changeMade = false;
                 }
                 break;
 
@@ -99,6 +110,7 @@ public class FightController implements InputProcessor {
 
             } else if (pokeFight.arrowposition[0] == 1 && pokeFight.arrowposition[1] == 0) {
                 System.out.println("Should be run away...");
+                PokeFight.renderer.changeMap("WorldStart");
 
             } else {
                 System.out.println("Humm?");
@@ -140,9 +152,12 @@ public class FightController implements InputProcessor {
 
                     alreadySelected.setUserSelected(false);
                     currentSelected.setUserSelected(false);
+                    changeMade = true;
                 }
 
             }
+        } else if(pokeFight.windowMode==PokeFight.MODE_END_MODE){
+            PokeFight.renderer.changeMap("WorldStart");
         }
     }
 
@@ -192,8 +207,8 @@ public class FightController implements InputProcessor {
             pokeFight.arrowposition[0] = Math.max(0, Math.min(pokeFight.arrowposition[0], 1));
             pokeFight.arrowposition[1] = Math.max(0, Math.min(pokeFight.arrowposition[1], 1));
 
-        } else if(pokeFight.windowMode==PokeFight.MODE_POKEMON_SELECTION){
-            pokeFight.arrowposition[1]= Math.max(0, Math.min(pokeFight.arrowposition[1], playerCharacter.getTeam().size()-1));
+        } else if (pokeFight.windowMode == PokeFight.MODE_POKEMON_SELECTION) {
+            pokeFight.arrowposition[1] = Math.max(0, Math.min(pokeFight.arrowposition[1], playerCharacter.getTeam().size() - 1));
         }
 
 
@@ -256,49 +271,80 @@ public class FightController implements InputProcessor {
             do {
 
                 Character attacker = fight.getAttacker();
+                Character defender = fight.getDefender();
                 Pokemon attackingPokemon = attacker.getTeam().getFirstPokemonInLife();
-                PokemonSprite pokeSprite = pokeFight.allPokemons.get(attackingPokemon);
-
-                System.out.println(attackingPokemon.getName() + " is attacking!");
-                System.out.println(attackingPokemon);
-                fight.attack(attackingPokemon.getAttacks().get(0));
-                System.out.println("attack done");
-                fight.swap();
-
-                // play attacker sound
-                pokeFight.playSound(pokeSprite.getCry());
+                Pokemon defendingPokemon = defender.getTeam().getFirstPokemonInLife();
 
 
-                // wait for the move
-                try {
+                if (attackingPokemon == null) {
+                    // lost or win
+                    checkLostOrWin(attacker);
+                } else {
 
-                    for (int tour = 0; tour < 3; tour++) {
 
-                        for (int i = 0; i < 20; i++) {
-                            pokeSprite.setPosition(pokeSprite.getX() + 1, pokeSprite.getY() + 1);
-                            Thread.sleep(10);
+                    PokemonSprite pokeSprite = pokeFight.allPokemons.get(attackingPokemon);
+                    PokemonSprite defenPokeSprite = pokeFight.allPokemons.get(defendingPokemon);
+
+                    System.out.println(attackingPokemon.getName() + " is attacking!");
+                    System.out.println(attackingPokemon);
+                    fight.attack(attackingPokemon.getAttacks().get(0));
+                    System.out.println("attack done");
+
+                    // play attacker sound
+                    pokeFight.playSound(pokeSprite.getCry());
+
+
+                    // wait for the move
+                    try {
+
+                        for (int tour = 0; tour < 3; tour++) {
+
+                            for (int i = 0; i < 20; i++) {
+                                pokeSprite.setPosition(pokeSprite.getX() + 1, pokeSprite.getY() + 1);
+                                Thread.sleep(10);
+                            }
+
+                            for (int i = 0; i < 20; i++) {
+                                pokeSprite.setPosition(pokeSprite.getX() - 1, pokeSprite.getY() - 1);
+                                Thread.sleep(10);
+
+                            }
+
                         }
 
-                        for (int i = 0; i < 20; i++) {
-                            pokeSprite.setPosition(pokeSprite.getX() - 1, pokeSprite.getY() - 1);
-                            Thread.sleep(10);
 
-                        }
-
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
 
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    // ANIMATION DEAD
+                    if (defendingPokemon.checkDead()) {
+                        System.out.println("hESDEAD");
+                        for (int i = 0; i < 30; i++) {
+                            System.out.println("boucle");
+                            try {
+                                defenPokeSprite.setRotation(defenPokeSprite.getRotation() + i * 2f);
+                                Thread.sleep(30);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
 
-                // WAIT FOR NEXT ATTACK
-                try {
-                    Thread.sleep(800);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                        defendingPokemon.setEjected(true);
+                    }
+
+
+                    // WAIT FOR NEXT ATTACK
+                    try {
+                        Thread.sleep(800);
+                        fight.swap();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
 
             } while (!(fight.getAttacker() == playerCharacter));
 
@@ -307,6 +353,21 @@ public class FightController implements InputProcessor {
         });
         t.start();
 
+
+    }
+
+    private void checkLostOrWin(Character attacker) {
+        pokeFight.windowMode = PokeFight.MODE_END_MODE;
+
+        pokeFight.music.stop();
+
+        if(attacker!=playerCharacter) {
+            pokeFight.winMusic.play();
+        } else {
+            pokeFight.lostMusic.play();
+        }
+
+        systemBusy=false;
 
     }
 

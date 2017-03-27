@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Listener;
 import potlemon.core.network.KryoRegisterClasses;
 import potlemon.core.network.dto.NetworkDTO;
 import potlemon.core.network.config.ServerConfigs;
+import potlemon.core.network.events.NetworkEvent;
 import potlemon.core.network.exceptions.NetworkClientException;
 import potlemon.core.tools.ClientListener;
 
@@ -122,7 +123,7 @@ public class PotlemonClient extends Listener {
     public void received(Connection connection, Object o) {
         for (ClientListener list :
                 listeners) {
-            list.onEvent(null, o);
+            list.onEvent(NetworkEvent.NEW_MESSAGE, o);
         }
     }
 

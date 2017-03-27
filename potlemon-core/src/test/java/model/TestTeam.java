@@ -44,6 +44,7 @@ public class TestTeam {
 		t.add(p2);
 		assertEquals(p, t.getFirstPokemonInLife());
 		t.getFirstPokemon().lostPV(200);
+		t.getFirstPokemonInLife().setEjected(true);
 		assertEquals(p1, t.getFirstPokemonInLife());
 	}
 	

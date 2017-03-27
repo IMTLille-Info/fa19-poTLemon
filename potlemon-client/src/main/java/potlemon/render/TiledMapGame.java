@@ -19,7 +19,7 @@ import javax.swing.*;
 public class TiledMapGame extends Game {
 
     // NETWORK CLIENT
-    private PotlemonClient networkClient =  PotlemonClient.getInstance();
+    private PotlemonClient networkClient = PotlemonClient.getInstance();
 
     private Viewport viewport;
     private Camera camera;
@@ -34,7 +34,7 @@ public class TiledMapGame extends Game {
         // get the gamemanager
         gameManager = GameManager.getInstance();
 
-        setScreen(new PokeWorld("sprites/TileMap/WorldStart.tmx"));
+        setScreen(new PokeWorld("sprites/TileMap/" + gameManager.mapToLoad + ".tmx", this));
 
         viewport.apply();
 
@@ -65,10 +65,10 @@ public class TiledMapGame extends Game {
             }
         } else if (Gdx.input.isKeyPressed(Keys.F1) || Gdx.input.isKeyPressed(Keys.F2)) {
 
-            if(Gdx.input.isKeyPressed(Keys.F1)){
-                setScreen(new PokeWorld("sprites/TileMap/WorldStart.tmx"));
+            if (Gdx.input.isKeyPressed(Keys.F1)) {
+                changeMap("WorldStart");
             } else {
-                setScreen(new PokeFight());
+                loadFight();
             }
 
         } else if (Gdx.input.isKeyPressed(Keys.N)) {
@@ -103,5 +103,15 @@ public class TiledMapGame extends Game {
     @Override
     public void resume() {
         super.resume();
+    }
+
+    public void changeMap(String name) {
+        gameManager.mapToLoad=name;
+        setScreen(new PokeWorld("sprites/TileMap/" + gameManager.mapToLoad + ".tmx", this));
+
+    }
+
+    public void loadFight() {
+        setScreen(new PokeFight(this));
     }
 }

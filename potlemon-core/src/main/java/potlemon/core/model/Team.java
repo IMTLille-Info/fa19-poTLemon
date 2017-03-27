@@ -33,7 +33,7 @@ public class Team {
 		}
 		else{
 			for(Pokemon p : team){
-				if(!p.checkDead()){
+				if(!p.checkDead() || p.checkDead() && !p.isEjected()){
 					return p;
 				}
 			}
