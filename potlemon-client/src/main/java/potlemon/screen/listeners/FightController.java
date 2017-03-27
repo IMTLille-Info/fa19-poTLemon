@@ -361,12 +361,9 @@ public class FightController implements InputProcessor {
 
         pokeFight.music.stop();
 
-        if(attacker!=playerCharacter) {
-            pokeFight.winMusic.play();
-        } else {
-            pokeFight.lostMusic.play();
+        if(playerCharacter==attacker){
+            haveWin=false;
         }
-
         systemBusy=false;
 
     }

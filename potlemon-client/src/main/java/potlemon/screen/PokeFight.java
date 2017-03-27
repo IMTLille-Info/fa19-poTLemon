@@ -46,8 +46,6 @@ public class PokeFight extends AbstractScreen {
     private FightController fightController;
     private GameManager gameManager;
     public static TiledMapGame renderer;
-    public Music lostMusic;
-    public Music winMusic;
 
 
     public PokeFight() {
@@ -77,9 +75,6 @@ public class PokeFight extends AbstractScreen {
         music = Gdx.audio.newMusic(Gdx.files.internal("musics/battle_wild.mp3"));
         music.setLooping(true);
         music.play();
-
-        lostMusic = Gdx.audio.newMusic(Gdx.files.internal("musics/lost.mp3"));
-        winMusic = Gdx.audio.newMusic(Gdx.files.internal("musics/victory.mp3"));
 
         /**
          * Load all resources here...
@@ -389,9 +384,6 @@ public class PokeFight extends AbstractScreen {
                 pokemons) {
             allPokemons.get(pokKey).getTexture().dispose();
         }
-
-        winMusic.dispose();
-        lostMusic.dispose();
 
         namesFont.dispose();
         shapeRenderer.dispose();
