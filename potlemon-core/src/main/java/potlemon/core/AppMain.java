@@ -99,16 +99,25 @@ public class AppMain {
 				break;
 			case 3:
 
-				break;
-			case 4:
-				
-				break;
-			default:
-				System.out.println("Erreur de saisie");
-				break;
-			}
-		}
-	}
+        while (!fight.isFinish()) {
+            System.out.println("1.Attack");
+            System.out.println("2.Show inventory");
+            System.out.println("3.Manage Team");
+            System.out.println("4.fuir");
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1: // attack
+                    showAttack(fight.getAttacker());
+                    fight.attack(fight.getAttacker().getTeam().getFirstPokemon().getAttacks().get(getChoiceInt() - 1));
+                    if (!fight.isFinish()) {
+                        System.out.println(fight.getDefender().getTeam().getFirstPokemon().getName() + " a maintenant " + fight.getDefender().getTeam().getFirstPokemon().getHp());
+                        fight.swap();
+                    } else {
+                        System.out.println("Combat termin�. " + fight.getAttacker().getName() + " a gagn�");
+                    }
+                    break;
+                case 2:
 
 	private static void showAttack(Character c1) {
 		System.out.println("Selectionnez la position de l'attaque");

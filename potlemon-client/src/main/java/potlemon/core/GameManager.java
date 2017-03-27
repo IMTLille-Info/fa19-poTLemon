@@ -1,8 +1,10 @@
 package potlemon.core;
 
-import potlemon.core.tools.BDDFactory;
+import potlemon.core.model.*;
+import potlemon.core.model.Character;
 
-import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains all the core models.
@@ -10,7 +12,7 @@ import java.sql.Connection;
 public class GameManager {
 
     private static GameManager gameManager = null;
-    private final Connection bddFactory;
+    private Character playerCharacter;
 
     /**
      * Returns a single instance
@@ -26,9 +28,49 @@ public class GameManager {
     }
 
 
+    /**
+     * GameManager
+     */
     private GameManager() {
-        bddFactory = BDDFactory.getConnection();
+
+        init();
+
 
     }
 
+    /**
+     * Called first time.
+     */
+    private void init() {
+        // have to create the main character.
+
+        // OSEF
+        Team myTeam = new Team();
+
+        myTeam.add(new Pokemon(7, "Carapuce", 100, 100, 3, Type.WATER, initAttacks()));
+        myTeam.add(new Pokemon(22, "Rapasdepic", 100, 100, 3, Type.AIR, initAttacks()));
+        myTeam.add(new Pokemon(6, "Dracaufeu", 100, 100, 3, Type.FIRE, initAttacks()));
+
+        playerCharacter = new potlemon.core.model.Character("Me", myTeam);
+    }
+
+    /**
+     * Attacks list
+     *
+     * @return
+     */
+    private List<Attack> initAttacks() {
+        List<Attack> attacks = new ArrayList<>();
+        attacks.add(new Attack("Baffe", 30));
+        attacks.add(new Attack("Queue d'fer", 0));
+        attacks.add(new Attack("Flammeche", 70));
+        attacks.add(new Attack("Charge", 60));
+
+        return attacks;
+    }
+
+
+    public Character getPlayerCharacter() {
+        return playerCharacter;
+    }
 }

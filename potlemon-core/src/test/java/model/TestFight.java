@@ -35,7 +35,7 @@ public class TestFight {
 		
 		Fight fight = new Fight(c1, c2);
 		fight.attack(a1);
-		assertEquals(80,fight.getC2().getTeam().getFirstPokemon().getHp());
+		assertEquals(80,fight.getDefender().getTeam().getFirstPokemon().getHp());
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class TestFight {
 		
 		Fight fight = new Fight(c1, c2);
 		fight.swap();
-		assertEquals(fight.getC1(), c2);
+		assertEquals(fight.getAttacker(), c2);
 	}
 	
 	@Test
@@ -81,7 +81,7 @@ public class TestFight {
 		
 		Fight fight = new Fight(c1, c2);
 		
-		assertEquals(true, fight.getC2().getTeam().getFirstPokemon().checkDead());
+		assertEquals(true, fight.getDefender().getTeam().getFirstPokemon().checkDead());
 	}
 	
 	@Test
@@ -104,7 +104,7 @@ public class TestFight {
 		
 		Fight fight = new Fight(c1, c2);
 		
-		assertEquals(false, fight.getC2().getTeam().getFirstPokemon().checkDead());
+		assertEquals(false, fight.getDefender().getTeam().getFirstPokemon().checkDead());
 	}
 
 }

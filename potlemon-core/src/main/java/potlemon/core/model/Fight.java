@@ -1,7 +1,5 @@
 package potlemon.core.model;
 
-import java.util.ArrayList;
-
 
 /**
  * Combat's action
@@ -27,17 +25,17 @@ public class Fight {
 		if(attackPoint<0){
 			attackPoint = 0;
 		}
-		this.getC2().getTeam().getFirstPokemon().setHp( this.defender.getTeam().getFirstPokemon().getHp()-attackPoint);
+		this.getDefender().getTeam().getFirstPokemon().setHp( this.defender.getTeam().getFirstPokemon().getHp()-attackPoint);
 		if(this.attacker.getTeam().getFirstPokemon().checkDead()){
 			this.defender.getTeam().remove(0);
 		}
 	}
 	
-	public Character getC1() {
+	public Character getAttacker() {
 		return attacker;
 	}
 	
-	public Character getC2() {
+	public Character getDefender() {
 		return defender;
 	}
 	

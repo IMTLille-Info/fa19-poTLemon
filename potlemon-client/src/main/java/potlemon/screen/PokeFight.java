@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import potlemon.core.model.Pokemon;
 import potlemon.core.models.PokemonSprite;
-import potlemon.screen.listeners.FightListener;
+import potlemon.screen.listeners.FightController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,7 +92,7 @@ public class PokeFight extends AbstractScreen {
 
 
         // listener...
-        Gdx.input.setInputProcessor(new FightListener(this));
+        Gdx.input.setInputProcessor(new FightController(this));
     }
 
     /**
