@@ -180,6 +180,4 @@ public class AppMain {
 
 		showMenu(character,mereNature);
 	}
-
-
 }

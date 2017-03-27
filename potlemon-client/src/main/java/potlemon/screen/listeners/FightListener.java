@@ -15,9 +15,30 @@ public class FightListener implements InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int i) {
-        System.out.println(i);
-        switch (i) {
+    public boolean keyDown(int pressedKey) {
+        System.out.println(pressedKey);
+
+        // FOR CURSOR
+        if(pressedKey>=19&&pressedKey<=22){
+            moveCursor(pressedKey);
+            return true;
+        }
+
+
+       switch(pressedKey){
+
+            case 81:
+                pokeFight.pokemonSpriteList.get(0).getPokemon().addPV(10);
+                pokeFight.pokemonSpriteList.get(1).getPokemon().lostPV(10);
+                break;
+        }
+
+
+        return false;
+    }
+
+    private void moveCursor(int key){
+        switch (key) {
             // up
             case 19:
                 pokeFight.arrowposition[1]--;
@@ -34,15 +55,9 @@ public class FightListener implements InputProcessor {
             case 22:
                 pokeFight.arrowposition[0]++;
                 break;
-
-            case 81:
-                pokeFight.pokemonSpriteList.get(0).getPokemon().addPV(10);
-                pokeFight.pokemonSpriteList.get(1).getPokemon().lostPV(10);
-                break;
         }
 
-
-        return false;
+        pokeFight.playSound("click");
     }
 
     @Override

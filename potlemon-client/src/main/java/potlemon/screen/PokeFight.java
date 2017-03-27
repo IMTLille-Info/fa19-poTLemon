@@ -1,6 +1,7 @@
 package potlemon.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +14,9 @@ import potlemon.core.models.PokemonSprite;
 import potlemon.screen.listeners.FightListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PokeFight extends AbstractScreen {
 
@@ -251,5 +254,35 @@ public class PokeFight extends AbstractScreen {
 
     }
 
+
+    /**
+     * Play sound
+     *
+     * @param name
+     */
+    public void playSound(String name) {
+        loadSound(name);
+        switch (name) {
+            case "click":
+                soundMap.get(name).play();
+                break;
+        }
+
+    }
+
+    Map<String, Sound> soundMap = new HashMap<>();
+
+    /**
+     * Loads sounds
+     *
+     * @param name
+     */
+    private void loadSound(String name) {
+        if (!soundMap.containsKey(name)) {
+            Sound sound = Gdx.audio.newSound(Gdx.files.internal("musics/" + name + ".mp3"));
+            soundMap.put(name, sound);
+        }
+
+    }
 
 }
