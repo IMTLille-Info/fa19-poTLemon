@@ -37,7 +37,7 @@ public class FightListener implements InputProcessor {
 
             case 81:
                 pokeFight.pokemonSpriteList.get(0).getPokemon().addPV(10);
-                pokeFight.pokemonSpriteList.get(1).getPokemon().addPV(-10);
+                pokeFight.pokemonSpriteList.get(1).getPokemon().lostPV(10);
                 break;
         }
 
@@ -64,7 +64,7 @@ public class FightListener implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         // ignore if its not left mouse button or first touch pointer
-        if (button != Input.Buttons.LEFT || pointer > 0) return false;
+        if (button != Input.Buttons.RIGHT || pointer > 0) return false;
         System.out.println(screenX + "," + screenY + " ! " + pointer + " " + button);
         return true;
     }

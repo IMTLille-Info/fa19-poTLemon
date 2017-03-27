@@ -1,10 +1,10 @@
 package potlemon.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,7 +27,8 @@ public class PokeFight extends AbstractScreen {
     public List<PokemonSprite> pokemonSpriteList = new ArrayList<>();
     private Texture texturearrow;
     private Sprite spritearrow;
-    public int arrowposition[] = {0, 0};
+    public int arrowposition[] = {0, 1};
+    private BitmapFont namesFont, pvsFont;
 
 
     public PokeFight() {
@@ -52,6 +53,13 @@ public class PokeFight extends AbstractScreen {
          */
         batch = new SpriteBatch();
 
+        namesFont = new BitmapFont();
+        namesFont.setColor(Color.BLACK);
+        namesFont.getData().setScale(3);
+
+        pvsFont = new BitmapFont();
+        pvsFont.setColor(Color.BLACK);
+        pvsFont.getData().setScale(2);
 
         shapeRenderer = new ShapeRenderer();
 
@@ -62,7 +70,6 @@ public class PokeFight extends AbstractScreen {
 
         texturearrow = new Texture(Gdx.files.internal("sprites/pokemon/arrow.png"));
         spritearrow = new Sprite(texturearrow);
-        spritearrow.setPosition(600, 40);
 
 
         /**
@@ -75,7 +82,7 @@ public class PokeFight extends AbstractScreen {
         pokemonSpriteList.add(myPokemon);
 
 
-        PokemonSprite advPokemon = new PokemonSprite(new Pokemon(7, "Carapuce", 30, 100), false);
+        PokemonSprite advPokemon = new PokemonSprite(new Pokemon(7, "Carapuce", 100, 100), false);
         advPokemon.setScale(3, 3);
         advPokemon.setPosition((float) (Gdx.graphics.getWidth() * 0.7), (float) (Gdx.graphics.getHeight() * 0.7));
         pokemonSpriteList.add(advPokemon);
@@ -91,9 +98,9 @@ public class PokeFight extends AbstractScreen {
      * @param delta
      */
     public void render(float delta) {
-        Gdx.gl20.glViewport( 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-        Gdx.gl20.glClearColor( 255, 255, 255, 1 );
-        Gdx.gl20.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+        Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Gdx.gl20.glClearColor(255, 255, 255, 1);
+        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 
         batch.begin();
@@ -107,9 +114,27 @@ public class PokeFight extends AbstractScreen {
         /**
          * Draw all the pokemon sprites...
          */
+        int id = 0;
         for (PokemonSprite pokesprite :
                 pokemonSpriteList) {
             pokesprite.draw(batch);
+
+            switch (id) {
+                case 0:
+                    // write name of my pokemon
+                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 790, 430);
+
+                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHp()), 800, 340);
+                    pvsFont.draw(batch, String.valueOf(pokesprite.getPokemon().getHpMax()), 970, 340);
+
+                    break;
+                default:
+                    namesFont.draw(batch, pokesprite.getPokemon().getName().toUpperCase(), 54, 730);
+                    break;
+
+            }
+
+            id++;
         }
 
 
@@ -156,10 +181,10 @@ public class PokeFight extends AbstractScreen {
 
         // bottom
         if (position == true) {
-            shapeRenderer.rect(770, 345, width, height);
+            shapeRenderer.rect(770, 355, width, height);
         } else {
             // top
-            shapeRenderer.rect(255, 630, width, height);
+            shapeRenderer.rect(255, 668, width, height);
         }
 
         shapeRenderer.end();
@@ -213,6 +238,17 @@ public class PokeFight extends AbstractScreen {
     public void dispose() {
         music.stop();
         music.dispose();
+
+        for (PokemonSprite pok :
+                pokemonSpriteList) {
+            pok.getTexture().dispose();
+        }
+
+        namesFont.dispose();
+        shapeRenderer.dispose();
+        spriteinterface.getTexture().dispose();
+        spriteinterface.getTexture().dispose();
+
     }
 
 
