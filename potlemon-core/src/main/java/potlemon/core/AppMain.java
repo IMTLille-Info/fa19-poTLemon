@@ -75,7 +75,7 @@ public class AppMain {
 		System.out.println("Your fight :");
 		Fight fight = new Fight(c1, c2);
 
-		while(!fight.getC2().getTeam().everyoneIsDead()) {
+		while(!fight.getDefender().getTeam().everyoneIsDead()) {
 			System.out.println("1.Attack");
 			System.out.println("2.Show inventory");
 			System.out.println("3.Manage Team");
@@ -84,14 +84,14 @@ public class AppMain {
 			int choice = scanner.nextInt();
 			switch (choice) {
 			case 1: // attack
-				showAttack(fight.getC1());
-				fight.attack(fight.getC1().getTeam().getFirstPokemon().getAttacks().get(getChoiceInt()-1));
-				if(!fight.getC2().getTeam().everyoneIsDead()){
-					System.out.println(fight.getC2().getTeam().getFirstPokemon().getName() + " a maintenant " +  fight.getC2().getTeam().getFirstPokemon().getHp() );
+				showAttack(fight.getAttacker());
+				fight.attack(fight.getAttacker().getTeam().getFirstPokemon().getAttacks().get(getChoiceInt()-1));
+				if(!fight.getDefender().getTeam().everyoneIsDead()){
+					System.out.println(fight.getDefender().getTeam().getFirstPokemon().getName() + " a maintenant " +  fight.getDefender().getTeam().getFirstPokemon().getHp() );
 					fight.swap();
 				}
 				else{
-					System.out.println("Combat termin�. " + fight.getC1().getName() + " a gagn�");
+					System.out.println("Combat termin�. " + fight.getAttacker().getName() + " a gagn�");
 				}
 				break;
 			case 2:
@@ -99,25 +99,16 @@ public class AppMain {
 				break;
 			case 3:
 
-        while (!fight.isFinish()) {
-            System.out.println("1.Attack");
-            System.out.println("2.Show inventory");
-            System.out.println("3.Manage Team");
-            System.out.println("4.fuir");
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1: // attack
-                    showAttack(fight.getAttacker());
-                    fight.attack(fight.getAttacker().getTeam().getFirstPokemon().getAttacks().get(getChoiceInt() - 1));
-                    if (!fight.isFinish()) {
-                        System.out.println(fight.getDefender().getTeam().getFirstPokemon().getName() + " a maintenant " + fight.getDefender().getTeam().getFirstPokemon().getHp());
-                        fight.swap();
-                    } else {
-                        System.out.println("Combat termin�. " + fight.getAttacker().getName() + " a gagn�");
-                    }
-                    break;
-                case 2:
+				break;
+			case 4:
+				
+				break;
+			default:
+				System.out.println("Erreur de saisie");
+				break;
+			}
+		}
+	}
 
 	private static void showAttack(Character c1) {
 		System.out.println("Selectionnez la position de l'attaque");
