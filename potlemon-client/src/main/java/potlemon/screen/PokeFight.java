@@ -75,7 +75,8 @@ public class PokeFight extends AbstractScreen {
         pokemonSpriteList.add(myPokemon);
 
 
-        PokemonSprite advPokemon = new PokemonSprite(new Pokemon(7, "Carapuce", 30, 100), false);
+
+        PokemonSprite advPokemon = new PokemonSprite(new Pokemon(7, "Carapuce", 100, 100), false);
         advPokemon.setScale(3, 3);
         advPokemon.setPosition((float) (Gdx.graphics.getWidth() * 0.7), (float) (Gdx.graphics.getHeight() * 0.7));
         pokemonSpriteList.add(advPokemon);
