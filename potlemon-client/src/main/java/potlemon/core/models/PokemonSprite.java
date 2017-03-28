@@ -16,6 +16,7 @@ public class PokemonSprite extends Sprite {
 
     private boolean userSelected = false;
     private boolean arrowSelected = false;
+    private boolean visible=true;
 
     public PokemonSprite(Pokemon pokemon, Sound cry, boolean back) {
         super(new Texture(Gdx.files.internal("sprites/pokemon/" + pokemon.getId() + (back == true ? "-back" : "") + ".png")));
@@ -58,5 +59,13 @@ public class PokemonSprite extends Sprite {
 
     public boolean isArrowSelected() {
         return arrowSelected;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

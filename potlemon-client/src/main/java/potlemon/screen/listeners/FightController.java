@@ -12,6 +12,9 @@ import potlemon.screen.PokeFight;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static com.sun.glass.ui.Cursor.setVisible;
 
 /**
  * Created by Pierre on 26/03/2017.
@@ -26,7 +29,7 @@ public class FightController implements InputProcessor {
 
     private boolean systemBusy = false;
     private boolean changeMade = false;
-    public boolean haveWin=true;
+    public boolean haveWin = true;
 
 
     public FightController(PokeFight pokeFight) {
@@ -113,7 +116,7 @@ public class FightController implements InputProcessor {
                 PokeFight.renderer.changeMap("WorldStart");
 
             } else {
-                System.out.println("Humm?");
+                actionCapture();
             }
         } else if (pokeFight.windowMode == PokeFight.MODE_POKEMON_SELECTION) {
 
@@ -156,9 +159,119 @@ public class FightController implements InputProcessor {
                 }
 
             }
-        } else if(pokeFight.windowMode==PokeFight.MODE_END_MODE){
+        } else if (pokeFight.windowMode == PokeFight.MODE_END_MODE) {
             PokeFight.renderer.changeMap("WorldStart");
         }
+    }
+
+    private void actionCapture() {
+        systemBusy=true;
+        pokeFight.pokeBallAppear = true;
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                float x = pokeFight.spritepokeball.getX() - 300, y = pokeFight.spritepokeball.getY() - 300;
+
+                for (int i = 0; i < 30; i++) {
+                    System.out.println("WHYYY");
+                    pokeFight.spritepokeball.setX(x + 30*i);
+                    pokeFight.spritepokeball.setY(y + 30*i);
+
+                    try {
+                        Thread.sleep(40);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+                PokemonSprite capturedPokemon = pokeFight.allPokemons.get(advCharacter.getTeam().getFirstPokemonInLife());
+                capturedPokemon.setVisible(false);
+
+
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                for(int tour=0;tour<2;tour++){
+
+                    for(int r=0;r<10;r++){
+                        pokeFight.spritepokeball.setRotation(pokeFight.spritepokeball.getRotation()+r);
+                        try {
+                            Thread.sleep(30);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    for(int r=0;r<10;r++){
+                        pokeFight.spritepokeball.setRotation(pokeFight.spritepokeball.getRotation()-r);
+                        try {
+                            Thread.sleep(30);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    Random random = new Random();
+
+                    if(random.nextInt(10)>0){
+
+                        // add pokemon to team
+                        capturedPokemon.getPokemon().addPV(9999);
+                        playerCharacter.getTeam().add(capturedPokemon.getPokemon());
+
+
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                PokeFight.renderer.changeMap("WorldStart");
+                            }
+                        });
+
+                    } else {
+
+                        capturedPokemon.setVisible(true);
+                       pokeFight.pokeBallAppear=false;
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        fight.swap();
+                        actionFight();
+                    }
+
+                }
+
+
+                capturedPokemon.setVisible(true);
+                systemBusy=false;
+
+            }
+        });
+        t.start();
+
+
     }
 
     private PokemonSprite getSelectedPokemon(List<Pokemon> pokemonSprites) {
@@ -361,10 +474,10 @@ public class FightController implements InputProcessor {
 
         pokeFight.music.stop();
 
-        if(playerCharacter==attacker){
-            haveWin=false;
+        if (playerCharacter == attacker) {
+            haveWin = false;
         }
-        systemBusy=false;
+        systemBusy = false;
 
     }
 

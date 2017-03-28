@@ -46,6 +46,9 @@ public class PokeFight extends AbstractScreen {
     private FightController fightController;
     private GameManager gameManager;
     public static TiledMapGame renderer;
+    private Texture texturepokeball;
+    public Sprite spritepokeball;
+    public boolean pokeBallAppear=false;
 
 
     public PokeFight() {
@@ -98,6 +101,10 @@ public class PokeFight extends AbstractScreen {
 
         texturearrow = new Texture(Gdx.files.internal("sprites/pokemon/arrow.png"));
         spritearrow = new Sprite(texturearrow);
+
+
+        texturepokeball = new Texture(Gdx.files.internal("sprites/pokeball/mypoke.png"));
+        spritepokeball = new Sprite(texturepokeball);
 
 
         // create all pokemons
@@ -254,16 +261,30 @@ public class PokeFight extends AbstractScreen {
             namesFont.draw(batch, myPokeSprite.getPokemon().getName().toUpperCase(), 790, 430);
             pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHp()), 800, 340);
             pvsFont.draw(batch, String.valueOf(myPokeSprite.getPokemon().getHpMax()), 970, 340);
-            myPokeSprite.draw(batch);
+
+            if (myPokeSprite.isVisible())
+                myPokeSprite.draw(batch);
         }
 
 
         // his pokemon
         Pokemon hisPokemon = fightController.getAdvCharacter().getTeam().getFirstPokemonInLife();
+
         if (hisPokemon != null) {
             hisPokeSprite = allPokemons.get(hisPokemon);
             namesFont.draw(batch, hisPokeSprite.getPokemon().getName().toUpperCase(), 130, 730);
-            hisPokeSprite.draw(batch);
+
+            if (hisPokeSprite.isVisible())
+                hisPokeSprite.draw(batch);
+
+            if(pokeBallAppear==true){
+
+                spritepokeball.setPosition(hisPokeSprite.getX(),hisPokeSprite.getY());
+                spritepokeball.setScale(0.7f);
+                spritepokeball.draw(batch);
+
+            }
+
         }
 
         batch.end();
@@ -389,7 +410,7 @@ public class PokeFight extends AbstractScreen {
         shapeRenderer.dispose();
         spriteinterface.getTexture().dispose();
         spriteinterface.getTexture().dispose();
-
+        spritepokeball.getTexture().dispose();
     }
 
 
